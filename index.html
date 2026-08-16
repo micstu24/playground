@@ -235,11 +235,11 @@
         <p>A running journal of whatever craft project has taken over the kitchen table this month.</p>
         <div class="card-meta"><span class="impact">Arts &amp; Crafts</span><span class="status">Planned</span></div>
       </div>
-      <div class="card mom" data-tags="mom">
-        <div class="stamp-row"><span class="stamp mom">Mom Life</span></div>
-        <h3><a href="projects/coming-soon.html">Systems for Surviving Summer Break</a></h3>
-        <p>Turns out lead-lifecycle thinking works just as well on a kid, a dog, and a summer calendar.</p>
-        <div class="card-meta"><span class="impact">Family ops</span><span class="status">Planned</span></div>
+      <div class="card mom" data-tags="mom claude">
+        <div class="stamp-row"><span class="stamp mom">Mom Life</span><span class="stamp claude">Claude</span></div>
+        <h3><a href="projects/school-email-triage.html">Inbox Triage for School Email</a></h3>
+        <p>Had Claude read the flood of school emails and turn it into a short, real checklist every morning.</p>
+        <div class="card-meta"><span class="impact">~60 emails &rarr; 8 to-dos</span><span class="status">Live</span></div>
       </div>
     </div>
   </div>
@@ -284,6 +284,15 @@
 </footer>
 
 <script>
+  const cardsContainer = document.querySelector('.cards');
+  const statusRank = { live: 0, 'in progress': 1, planned: 2 };
+  Array.from(cardsContainer.children)
+    .sort((a, b) => {
+      const rankOf = card => statusRank[card.querySelector('.status').textContent.trim().toLowerCase()] ?? 99;
+      return rankOf(a) - rankOf(b);
+    })
+    .forEach(card => cardsContainer.appendChild(card));
+
   const tagButtons = document.querySelectorAll('.tag-btn');
   const cards = document.querySelectorAll('.card');
   tagButtons.forEach(btn => {

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Inbox Triage for School Email — Michelle Stunkard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFA; --ink:#14161A; --stone:#6E7378; --line:#EAEBE7;
+    --work:#3B5BFF; --work-dim:#EBEEFF;
+    --art:#FF6F91;  --art-dim:#FFEDF1;
+    --mom:#1FA971;  --mom-dim:#E6F7EF;
+    --claude:#FFB020; --claude-dim:#FFF4E0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+  .mono{font-family:'Space Mono',monospace;}
+
+  nav{position:sticky; top:0; z-index:50; background:rgba(252,252,250,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:760px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .nav-name{font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px;}
+  .back-link{font-family:'Fredoka',sans-serif; font-weight:500; font-size:14px; text-decoration:none; color:var(--stone); display:flex; align-items:center; gap:6px;}
+  .back-link:hover{color:var(--ink);}
+
+  .hero{padding:48px 0 8px;}
+  .stamp-row{display:flex; gap:6px; margin-bottom:16px;}
+  .stamp{font-family:'Fredoka',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; padding:4px 10px; border-radius:999px; color:#fff; background:var(--work);}
+  .stamp.claude{background:var(--claude); color:#3E2900;}
+  .stamp.art{background:var(--art);}
+  .stamp.mom{background:var(--mom);}
+  h1{font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(30px,4.5vw,42px); line-height:1.1; margin:0 0 18px;}
+  .dek{font-size:16.5px; line-height:1.6; color:#3E4247; max-width:56ch; margin:0 0 28px;}
+
+  .meta-row{display:flex; gap:22px; flex-wrap:wrap; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:40px;}
+  .meta-item .k{font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; color:var(--stone); display:block; margin-bottom:4px;}
+  .meta-item .v{font-weight:600; font-size:14px;}
+
+  .body-content h2{font-family:'Fredoka',sans-serif; font-weight:600; font-size:21px; margin:36px 0 14px;}
+  .body-content p{font-size:15.5px; line-height:1.75; color:#3E4247; margin:0 0 16px;}
+  .body-content ul{font-size:15.5px; line-height:1.8; color:#3E4247; padding-left:20px; margin:0 0 16px;}
+  .callout{background:var(--work-dim); border-radius:16px; padding:20px 24px; margin:28px 0;}
+  .callout .k{font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; color:#2A3FA6; margin-bottom:6px; display:block;}
+  .callout p{margin:0; color:#1D2A66; font-weight:500;}
+
+  .sample-table{width:100%; border-collapse:collapse; margin:0 0 20px; font-size:14px;}
+  .sample-table th{text-align:left; font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; color:var(--stone); padding:0 10px 8px; border-bottom:1px solid var(--line);}
+  .sample-table td{padding:10px; border-bottom:1px solid var(--line); color:#3E4247; vertical-align:top;}
+  .sample-table tr:last-child td{border-bottom:none;}
+  .sample-note{font-family:'Space Mono',monospace; font-size:11.5px; color:var(--stone); margin:-8px 0 24px;}
+
+  footer{padding:56px 0 64px; margin-top:40px; border-top:1px solid var(--line); text-align:center;}
+  footer p{color:var(--stone); font-size:13.5px;}
+  footer a{font-family:'Fredoka',sans-serif; font-weight:500; text-decoration:none; color:var(--work);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">Michelle Stunkard</div>
+    <a class="back-link" href="../index.html">&larr; Back to Playground</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="stamp-row">
+      <span class="stamp mom">Mom Life</span>
+      <span class="stamp claude">Learning Claude</span>
+    </div>
+    <h1>Inbox Triage for School Email</h1>
+    <p class="dek">I'm learning that middle school comes with a much higher volume of emails than elementary. I had Claude read all of it, figure out what actually needed a signature or a date on the calendar, and hand me a checklist instead of a flood.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><span class="k">Status</span><span class="v">Live</span></div>
+      <div class="meta-item"><span class="k">Impact</span><span class="v">~60 emails &rarr; 8 real to-dos, refreshed every school morning</span></div>
+      <div class="meta-item"><span class="k">Tools</span><span class="v">Claude (Cowork), Gmail, Google Sheets, scheduled tasks</span></div>
+    </div>
+  </header>
+
+  <div class="body-content">
+    <h2>The problem</h2>
+    <p>Between the teacher newsletters, the front office blasts, the after-school-program vendor, the lunch-account app, and the library, my kid's school inbox was producing several emails a day. Almost all of it was FYI. A few times a week, though, something buried in paragraph four of a newsletter was an actual deadline &mdash; a form due Friday, a book needed by the end of the month &mdash; and I only found out by accident, or too late.</p>
+
+    <h2>The approach</h2>
+    <p>I asked Claude to search my inbox for everything from the school and its related tools (the payment app, the fine-arts program's own portal, the library system) going back as far as the mail history went. Instead of skimming subject lines, it opened the full body of anything that looked substantive and separated genuine action items &mdash; sign this, return that, pay by this date &mdash; from newsletter filler. It also caught threads that looked open but were actually already resolved, so I wasn't left chasing things I'd handled weeks earlier.</p>
+
+    <h2>What I built</h2>
+    <p>Two pieces, kept deliberately separate:</p>
+    <ul>
+      <li>An auto-refreshing dashboard: a running digest plus a deadline table, safe for Claude to fully regenerate every time since I never edit it directly.</li>
+      <li>A Google Sheet checklist I actually work from, with a Done column I check off by hand.</li>
+    </ul>
+    <p>Then a scheduled task, running weekday mornings: it re-scans the inbox, rebuilds the dashboard, and messages me a two-sentence digest &mdash; only calling out anything new or due soon, instead of repeating the whole list every day.</p>
+
+    <div class="callout">
+      <span class="k">The interesting bit</span>
+      <p>The hard part wasn't pulling deadlines out of email &mdash; that's the easy 80%. It was deciding what the automation was allowed to touch. The dashboard has no memory, so overwriting it daily is free. The checklist has my checkmarks in it, so I told the automation to never rewrite it &mdash; just flag new items and let me add them myself. Same data, two very different update rules.</p>
+    </div>
+
+    <h2>Result (redacted sample)</h2>
+    <p>Real names, the school, and identifying details are scrubbed below &mdash; but the shape of the output is exactly what lands in my inbox each morning:</p>
+    <table class="sample-table">
+      <thead><tr><th>Done</th><th>Item</th><th>Due</th><th>From</th></tr></thead>
+      <tbody>
+        <tr><td>&#9744;</td><td>Sign &amp; return safety form</td><td>Fri</td><td>Teacher, Science</td></tr>
+        <tr><td>&#9744;</td><td>Return/renew library book</td><td>Mon</td><td>School library</td></tr>
+        <tr><td>&#9744;</td><td>Class novel needed in hand</td><td>End of month</td><td>Teacher, ELA</td></tr>
+        <tr><td>&#9744;</td><td>Claim parent account for after-school program</td><td>No deadline given</td><td>After-school program</td></tr>
+        <tr><td>&#9745;</td><td>Records request from previous school</td><td>&mdash;</td><td>Counselor &mdash; resolved</td></tr>
+      </tbody>
+    </table>
+    <p class="sample-note">// column headers match the real tracker; row contents are fictionalized</p>
+  </div>
+
+  <footer>
+    <p>Have a similar problem? <a href="mailto:michellestunkard@gmail.com">Let's talk.</a></p>
+  </footer>
+</div>
+
+</body>
+</html>
