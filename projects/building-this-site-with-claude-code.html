@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Building This Site With Claude Code — Michelle Stunkard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFA; --ink:#14161A; --stone:#6E7378; --line:#EAEBE7;
+    --work:#3B5BFF; --work-dim:#EBEEFF;
+    --art:#FF6F91;  --art-dim:#FFEDF1;
+    --mom:#1FA971;  --mom-dim:#E6F7EF;
+    --claude:#FFB020; --claude-dim:#FFF4E0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+  .mono{font-family:'Space Mono',monospace;}
+
+  nav{position:sticky; top:0; z-index:50; background:rgba(252,252,250,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:760px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .nav-name{font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px;}
+  .back-link{
+    font-family:'Fredoka',sans-serif; font-weight:500; font-size:14px; text-decoration:none;
+    color:var(--stone); display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{color:var(--ink);}
+
+  .hero{padding:48px 0 8px;}
+  .stamp-row{display:flex; gap:6px; margin-bottom:16px;}
+  .stamp{
+    font-family:'Fredoka',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px; color:#fff; background:var(--work);
+  }
+  .stamp.claude{background:var(--claude); color:#3E2900;}
+  h1{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(30px,4.5vw,42px);
+    line-height:1.1; margin:0 0 18px;
+  }
+  .dek{font-size:16.5px; line-height:1.6; color:#3E4247; max-width:56ch; margin:0 0 28px;}
+
+  .meta-row{
+    display:flex; gap:22px; flex-wrap:wrap; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    margin-bottom:40px;
+  }
+  .meta-item .k{font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; color:var(--stone); display:block; margin-bottom:4px;}
+  .meta-item .v{font-weight:600; font-size:14px;}
+
+  .body-content h2{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:21px; margin:40px 0 14px;
+  }
+  .body-content p{font-size:15.5px; line-height:1.75; color:#3E4247; margin:0 0 16px;}
+  .body-content ul{font-size:15.5px; line-height:1.8; color:#3E4247; padding-left:20px;}
+  .callout{
+    background:var(--claude-dim); border-radius:16px; padding:20px 24px; margin:28px 0;
+  }
+  .callout .k{font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; color:#8A5C00; margin-bottom:6px; display:block;}
+  .callout p{margin:0; color:#5C3D00; font-weight:500;}
+
+  footer{padding:56px 0 64px; margin-top:40px; border-top:1px solid var(--line); text-align:center;}
+  footer p{color:var(--stone); font-size:13.5px;}
+  footer a{font-family:'Fredoka',sans-serif; font-weight:500; text-decoration:none; color:var(--work);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">Michelle Stunkard</div>
+    <a class="back-link" href="../index.html">&larr; Back to Playground</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="stamp-row">
+      <span class="stamp claude">Learning Claude</span>
+    </div>
+    <h1>Building This Site With Claude Code</h1>
+    <p class="dek">Notes on how this site actually got made — from a first conversation in Claude to a live, auto-deploying site — for anyone else figuring out Claude as they go.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><span class="k">Status</span><span class="v">Live</span></div>
+      <div class="meta-item"><span class="k">Impact</span><span class="v">Meta</span></div>
+      <div class="meta-item"><span class="k">Tools</span><span class="v">Claude, Claude Code, GitHub, Netlify</span></div>
+    </div>
+  </header>
+
+  <div class="body-content">
+    <h2>I started in chat, not in code</h2>
+    <p>Before writing anything, I talked the whole idea through with Claude — what the site should actually cover and who might read it. That turned into a homepage draft, built and rendered right in the conversation, that I could react to instead of designing from a blank page.</p>
+
+    <h2>The scope grew as I went</h2>
+    <p>The first draft stuck close to one topic: the marketing ops work. The more we talked, the more I wanted something that mixed that with the rest of my life — arts and crafts, mom life, learning Claude — tagged so people can find the part they care about. Each shift was just a conversation, not a rebuild from scratch.</p>
+
+    <div class="callout">
+      <span class="k">Where design directions came from</span>
+      <p>When I wasn't sure about the visual style, Claude built a few real, working previews side by side instead of just describing options — that made picking one a lot easier than imagining it.</p>
+    </div>
+
+    <h2>Handing off to Claude Code</h2>
+    <p>Once the content and design direction felt right, I moved the working draft into Claude Code to build it out for real — proper file structure, project pages, and eventually deploying it. Claude Code doesn't share the earlier chat's memory, so the handoff worked best by bringing over a real starting project instead of a blank folder, plus a README spelling out the plan.</p>
+
+    <h2>Getting it into git</h2>
+    <p>First step was version control, so I'd stop being one bad edit away from losing work. Claude Code walked through it directly in the folder:</p>
+    <ul>
+      <li>Ran <code>git init</code> and set a local git identity, since this machine had never committed anything before</li>
+      <li>Staged the real site files and made an initial commit with a plain-English message describing what was in it</li>
+      <li>Added a small <code>.gitignore</code> for OS junk files before anything else went in</li>
+    </ul>
+
+    <div class="callout">
+      <span class="k">Key decision</span>
+      <p>My project folder had an extra layer of nesting — a "portfolio-site" folder containing another "portfolio-site" folder, and the actual index.html lived in the inner one. Claude Code caught that the repo root needed to be wherever index.html actually sits, since that's what Netlify and GitHub Pages expect to find at the top level. Easy to miss, annoying to untangle later.</p>
+    </div>
+
+    <h2>Pushing to GitHub and going live on Netlify</h2>
+    <p>From there it was: create an empty repo on GitHub, add it as the remote, push. Then sign up for Netlify, connect the GitHub repo, and since this is a plain static site with no build step, leave the build command blank and point the publish directory at the repo root.</p>
+
+    <h2>Where it stands now</h2>
+    <p>The site is live at <a href="https://michellestunkard.netlify.app">michellestunkard.netlify.app</a> and redeploys automatically every time changes get pushed to the main branch on GitHub — no manual upload step, ever again. The update loop going forward is: describe the change, review a live preview, commit with a clear message, push, watch Netlify pick it up. Still ahead: a custom domain, and pulling the <code>noindex</code> tag off each page as its content stops being a placeholder.</p>
+
+    <h2>What I'd tell someone starting out</h2>
+    <ul>
+      <li>Talk through the idea before you touch code — it's faster to redirect a conversation than to redo a build.</li>
+      <li>Get something rendered early, even rough. Reacting to a draft beats staring at a blank page.</li>
+      <li>Don't be afraid to change direction mid-way. Structure and tone are cheap to change until you've built a lot on top of them.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>Figuring out your own Claude Code setup? <a href="mailto:michellestunkard@gmail.com">Let's compare notes.</a></p>
+  </footer>
+</div>
+
+</body>
+</html>
