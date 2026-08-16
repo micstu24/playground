@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Michelle Stunkard — Playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFA;
+    --ink:#14161A;
+    --stone:#6E7378;
+    --line:#EAEBE7;
+    --work:#3B5BFF; --work-dim:#EBEEFF;
+    --art:#FF6F91;  --art-dim:#FFEDF1;
+    --mom:#1FA971;  --mom-dim:#E6F7EF;
+    --claude:#FFB020; --claude-dim:#FFF4E0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  .mono{font-family:'Space Mono',monospace;}
+  .eyebrow{
+    font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--stone);
+  }
+
+  /* ---------- nav ---------- */
+  nav{position:sticky; top:0; z-index:50; background:rgba(252,252,250,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
+  .nav-inner{display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .nav-name{font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px;}
+  .nav-links{display:flex; gap:8px; list-style:none; margin:0; padding:0;}
+  .nav-links a{
+    font-family:'Work Sans',sans-serif; font-size:14px; font-weight:500;
+    text-decoration:none; color:var(--stone); padding:8px 14px; border-radius:999px;
+  }
+  .nav-links a:hover{background:var(--line); color:var(--ink);}
+  .nav-cta{
+    font-family:'Fredoka',sans-serif; font-weight:500; font-size:14px;
+    background:var(--ink); color:#fff; padding:9px 18px; border-radius:999px; text-decoration:none;
+  }
+  @media(max-width:760px){.nav-links{display:none;}}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:64px 0 48px;}
+  .hero-grid{display:grid; grid-template-columns:1.3fr 0.9fr; gap:40px; align-items:center;}
+  @media(max-width:760px){.hero-grid{grid-template-columns:1fr;}}
+  .badge{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--claude-dim); color:#8A5C00; font-weight:600; font-size:13px;
+    padding:7px 14px; border-radius:999px; margin-bottom:20px;
+  }
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--claude);}
+  h1{
+    font-family:'Fredoka',sans-serif; font-weight:600;
+    font-size:clamp(36px,5.2vw,56px); line-height:1.05; margin:0 0 18px; letter-spacing:-0.01em;
+  }
+  h1 .accent{color:var(--work);}
+  .sub{font-size:16.5px; line-height:1.6; color:#3E4247; max-width:48ch; margin:0 0 28px;}
+  .btn{
+    font-family:'Fredoka',sans-serif; font-weight:500; font-size:14.5px; text-decoration:none;
+    padding:13px 22px; border-radius:12px; display:inline-block; margin-right:10px; border:none; cursor:pointer;
+  }
+  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-secondary{background:#fff; border:2px solid var(--line); color:var(--ink);}
+
+  .blob-panel{
+    background:var(--work); border-radius:28px; padding:26px; color:#fff;
+    position:relative; overflow:hidden;
+  }
+  .blob-panel::after{
+    content:""; position:absolute; width:150px; height:150px; border-radius:50%;
+    background:rgba(255,255,255,0.12); top:-44px; right:-44px;
+  }
+  .blob-head{font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; opacity:.8; margin-bottom:14px; position:relative;}
+  .blob-panel .field{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid rgba(255,255,255,0.2); font-size:13.5px; position:relative; gap:12px;}
+  .blob-panel .field:last-child{border-bottom:none;}
+  .blob-panel .k{opacity:.75; font-size:12px; text-transform:uppercase; flex-shrink:0;}
+  .blob-panel .v{font-weight:600; text-align:right;}
+
+  /* ---------- about ---------- */
+  .about{padding:8px 0 56px; border-bottom:1px solid var(--line);}
+  .about p{font-size:15.5px; line-height:1.75; color:#3E4247; max-width:68ch; margin:14px 0 0;}
+
+  /* ---------- playground ---------- */
+  .section{padding:64px 0;}
+  .section-head{margin-bottom:8px;}
+  .feed-title{font-family:'Fredoka',sans-serif; font-weight:600; font-size:30px; margin:6px 0 26px;}
+  .tags{display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap;}
+  .tag-btn{
+    font-family:'Fredoka',sans-serif; font-size:13.5px; font-weight:500;
+    padding:9px 18px; border-radius:999px; background:#fff;
+    border:2px solid var(--line); cursor:pointer; transition:all .15s ease;
+  }
+  .tag-btn:hover{border-color:var(--ink);}
+  .tag-btn.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media(max-width:860px){.cards{grid-template-columns:1fr;}}
+  .card{
+    border-radius:20px; padding:22px; display:flex; flex-direction:column; gap:12px; min-height:190px;
+    transition:transform .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);}
+  .card.hide{display:none;}
+  .card.work{background:var(--work-dim);}
+  .card.art{background:var(--art-dim);}
+  .card.mom{background:var(--mom-dim);}
+  .card.claude-only{background:var(--claude-dim);}
+  .stamp-row{display:flex; gap:6px; flex-wrap:wrap;}
+  .stamp{
+    font-family:'Fredoka',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px; width:fit-content; color:#fff;
+  }
+  .stamp.work{background:var(--work);}
+  .stamp.art{background:var(--art);}
+  .stamp.mom{background:var(--mom);}
+  .stamp.claude{background:var(--claude); color:#3E2900;}
+  .card h3{font-family:'Fredoka',sans-serif; font-weight:600; font-size:17px; margin:0; line-height:1.3;}
+  .card h3 a{color:inherit; text-decoration:none;}
+  .card h3 a:hover{text-decoration:underline;}
+  .card p{font-size:13px; line-height:1.55; color:#3E4247; margin:0; flex-grow:1;}
+  .card-meta{display:flex; justify-content:space-between; align-items:center; font-size:12px;}
+  .impact{font-weight:600;}
+  .status{
+    font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase;
+    padding:3px 9px; border-radius:999px; background:rgba(20,22,26,0.08);
+  }
+
+  /* ---------- toolkit ---------- */
+  .toolkit-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  @media(max-width:800px){.toolkit-grid{grid-template-columns:repeat(2,1fr);}}
+  .toolkit-cell{background:#fff; border:2px solid var(--line); border-radius:18px; padding:20px;}
+  .toolkit-cell .eyebrow{display:block; margin-bottom:10px;}
+  .toolkit-cell ul{margin:0; padding:0; list-style:none; font-size:13.5px; line-height:1.9; color:#3E4247;}
+
+  /* ---------- footer ---------- */
+  footer{padding:56px 0 64px; border-top:1px solid var(--line);}
+  .footer-grid{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;}
+  .footer-grid h3{font-family:'Fredoka',sans-serif; font-weight:600; font-size:24px; margin:0 0 6px;}
+  .footer-grid p{margin:0; color:var(--stone); font-size:14px;}
+  .footer-links{display:flex; gap:10px; flex-wrap:wrap;}
+
+  ::selection{background:var(--work); color:#fff;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--work); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .card{transition:none;} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="nav-name">Michelle Stunkard</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#playground">Playground</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge"><span class="dot"></span>Currently building in public</span>
+      <h1>An ops brain, let loose on <span class="accent">everything</span>.</h1>
+      <p class="sub">20 years untangling marketing systems for a living — the last 10+ in B2B SaaS. These days that same brain also gets pointed at arts and crafts, summer-break logistics, and learning what Claude can actually do. This is where I write it all down.</p>
+      <a class="btn btn-primary" href="#playground">Explore the playground</a>
+      <a class="btn btn-secondary" href="#contact">Get in touch</a>
+    </div>
+
+    <div class="blob-panel">
+      <div class="blob-head mono">Field Notes · ID MS-2026</div>
+      <div class="field"><span class="k">Day job</span><span class="v">Head of Marketing Ops &amp; GTM Analytics</span></div>
+      <div class="field"><span class="k">Also building</span><span class="v">Arts and crafts, mostly ambitious</span></div>
+      <div class="field"><span class="k">Team</span><span class="v">1 kid, 1 husband, 1 dog</span></div>
+      <div class="field"><span class="k">Learning</span><span class="v">Claude Code, SQL, patience</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <span class="eyebrow">About</span>
+    <p>By day, I'm a GTM Operations leader — I've eliminated six figures in redundant tooling and built the attribution models that inform board-level decisions. Outside of that, I'm the same person who color-codes the family calendar and is always mid-way through some arts and crafts project. This site is where those worlds meet: a playground for whatever I'm building, thinking about, or learning with Claude — tagged so you can find the part you actually care about.</p>
+  </div>
+</section>
+
+<section class="section" id="playground">
+  <div class="wrap">
+    <span class="eyebrow section-head">The Feed</span>
+    <h2 class="feed-title">Playground</h2>
+    <div class="tags">
+      <button class="tag-btn active" data-filter="all">All</button>
+      <button class="tag-btn" data-filter="work">Work</button>
+      <button class="tag-btn" data-filter="claude">Learning Claude</button>
+      <button class="tag-btn" data-filter="art">Art</button>
+      <button class="tag-btn" data-filter="mom">Mom Life</button>
+    </div>
+    <div class="cards">
+      <div class="card work" data-tags="work">
+        <div class="stamp-row"><span class="stamp work">Work</span></div>
+        <h3><a href="projects/martech-roi-audit.html">MarTech Stack ROI Audit</a></h3>
+        <p>Rebuilding the framework behind a real $100K+ tool-consolidation project into an interactive audit tool.</p>
+        <div class="card-meta"><span class="impact">$100K+ eliminated</span><span class="status">In progress</span></div>
+      </div>
+      <div class="card work" data-tags="work claude">
+        <div class="stamp-row"><span class="stamp work">Work</span><span class="stamp claude">Claude</span></div>
+        <h3><a href="projects/coming-soon.html">Funnel Anomaly Diagnosis</a></h3>
+        <p>Using BigQuery on a real e-commerce dataset to trace a conversion-rate anomaly back to its source.</p>
+        <div class="card-meta"><span class="impact">SQL / BigQuery</span><span class="status">In progress</span></div>
+      </div>
+      <div class="card work" data-tags="work claude">
+        <div class="stamp-row"><span class="stamp work">Work</span><span class="stamp claude">Claude</span></div>
+        <h3><a href="projects/coming-soon.html">AI-Built Event Import Tool</a></h3>
+        <p>Used Claude Code + a Marketo MCP connection to build a bespoke event-import tool in-house.</p>
+        <div class="card-meta"><span class="impact">$14K saved / yr</span><span class="status">Planned</span></div>
+      </div>
+      <div class="card claude-only" data-tags="claude">
+        <div class="stamp-row"><span class="stamp claude">Learning Claude</span></div>
+        <h3><a href="projects/coming-soon.html">Building This Site With Claude Code</a></h3>
+        <p>Notes on going from a homepage draft to a live, growing site — for anyone else figuring out Claude Code.</p>
+        <div class="card-meta"><span class="impact">Meta</span><span class="status">Planned</span></div>
+      </div>
+      <div class="card art" data-tags="art">
+        <div class="stamp-row"><span class="stamp art">Art</span></div>
+        <h3><a href="projects/coming-soon.html">Arts and Crafts, In Progress</a></h3>
+        <p>A running journal of whatever craft project has taken over the kitchen table this month.</p>
+        <div class="card-meta"><span class="impact">Arts &amp; Crafts</span><span class="status">Planned</span></div>
+      </div>
+      <div class="card mom" data-tags="mom">
+        <div class="stamp-row"><span class="stamp mom">Mom Life</span></div>
+        <h3><a href="projects/coming-soon.html">Systems for Surviving Summer Break</a></h3>
+        <p>Turns out lead-lifecycle thinking works just as well on a kid, a dog, and a summer calendar.</p>
+        <div class="card-meta"><span class="impact">Family ops</span><span class="status">Planned</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="toolkit">
+  <div class="wrap">
+    <span class="eyebrow section-head">Toolkit</span>
+    <h2 class="feed-title">What I use</h2>
+    <div class="toolkit-grid">
+      <div class="toolkit-cell">
+        <span class="eyebrow">CRM &amp; MAP</span>
+        <ul><li>Salesforce</li><li>Marketo (MCE)</li><li>Pardot</li></ul>
+      </div>
+      <div class="toolkit-cell">
+        <span class="eyebrow">BI &amp; Analytics</span>
+        <ul><li>PowerBI</li><li>Tableau</li><li>BigQuery</li></ul>
+      </div>
+      <div class="toolkit-cell">
+        <span class="eyebrow">AI &amp; Automation</span>
+        <ul><li>Claude Code</li><li>Marketo MCP</li><li>Reo agents</li></ul>
+      </div>
+      <div class="toolkit-cell">
+        <span class="eyebrow">For Everything Else</span>
+        <ul><li>Arts &amp; crafts supplies</li><li>A shared family calendar</li><li>Coffee</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>Let's talk.</h3>
+      <p>michellestunkard@gmail.com · linkedin.com/in/michelle-stunkard</p>
+    </div>
+    <div class="footer-links">
+      <a class="btn btn-secondary" href="mailto:michellestunkard@gmail.com">Email</a>
+      <a class="btn btn-primary" href="https://linkedin.com/in/michelle-stunkard">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const tagButtons = document.querySelectorAll('.tag-btn');
+  const cards = document.querySelectorAll('.card');
+  tagButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tagButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const tags = card.dataset.tags.split(' ');
+        card.classList.toggle('hide', filter !== 'all' && !tags.includes(filter));
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

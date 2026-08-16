@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>MarTech Stack ROI Audit — Michelle Stunkard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFA; --ink:#14161A; --stone:#6E7378; --line:#EAEBE7;
+    --work:#3B5BFF; --work-dim:#EBEEFF;
+    --art:#FF6F91;  --art-dim:#FFEDF1;
+    --mom:#1FA971;  --mom-dim:#E6F7EF;
+    --claude:#FFB020; --claude-dim:#FFF4E0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+  .mono{font-family:'Space Mono',monospace;}
+
+  nav{position:sticky; top:0; z-index:50; background:rgba(252,252,250,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:760px; margin:0 auto; padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:68px;}
+  .nav-name{font-family:'Fredoka',sans-serif; font-weight:600; font-size:19px;}
+  .back-link{
+    font-family:'Fredoka',sans-serif; font-weight:500; font-size:14px; text-decoration:none;
+    color:var(--stone); display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{color:var(--ink);}
+
+  .hero{padding:48px 0 8px;}
+  .stamp-row{display:flex; gap:6px; margin-bottom:16px;}
+  .stamp{
+    font-family:'Fredoka',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px; color:#fff; background:var(--work);
+  }
+  .stamp.claude{background:var(--claude); color:#3E2900;}
+  h1{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:clamp(30px,4.5vw,42px);
+    line-height:1.1; margin:0 0 18px;
+  }
+  .dek{font-size:16.5px; line-height:1.6; color:#3E4247; max-width:56ch; margin:0 0 28px;}
+
+  .meta-row{
+    display:flex; gap:22px; flex-wrap:wrap; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    margin-bottom:40px;
+  }
+  .meta-item .k{font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; color:var(--stone); display:block; margin-bottom:4px;}
+  .meta-item .v{font-weight:600; font-size:14px;}
+
+  .body-content h2{
+    font-family:'Fredoka',sans-serif; font-weight:600; font-size:21px; margin:40px 0 14px;
+  }
+  .body-content p{font-size:15.5px; line-height:1.75; color:#3E4247; margin:0 0 16px;}
+  .body-content ul{font-size:15.5px; line-height:1.8; color:#3E4247; padding-left:20px;}
+  .callout{
+    background:var(--work-dim); border-radius:16px; padding:20px 24px; margin:28px 0;
+  }
+  .callout .k{font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; color:#2A3FA6; margin-bottom:6px; display:block;}
+  .callout p{margin:0; color:#1D2A66; font-weight:500;}
+
+  footer{padding:56px 0 64px; margin-top:40px; border-top:1px solid var(--line); text-align:center;}
+  footer p{color:var(--stone); font-size:13.5px;}
+  footer a{font-family:'Fredoka',sans-serif; font-weight:500; text-decoration:none; color:var(--work);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">Michelle Stunkard</div>
+    <a class="back-link" href="../index.html">&larr; Back to Playground</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="stamp-row">
+      <span class="stamp">Work</span>
+      <span class="stamp claude">Learning Claude</span>
+    </div>
+    <h1>MarTech Stack ROI Audit</h1>
+    <p class="dek">Rebuilding the framework behind a real $100K+ tool-consolidation project into a reusable, interactive audit tool.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><span class="k">Status</span><span class="v">In progress</span></div>
+      <div class="meta-item"><span class="k">Impact</span><span class="v">$100K+ eliminated</span></div>
+      <div class="meta-item"><span class="k">Tools</span><span class="v">Claude Code, PowerBI</span></div>
+    </div>
+  </header>
+
+  <div class="body-content">
+    <h2>The problem</h2>
+    <p>[Replace with real detail: what did the stack look like before the audit — how many tools, what was overlapping, and how did the redundancy actually get discovered?]</p>
+
+    <h2>The approach</h2>
+    <p>[Replace with real detail: how did you evaluate each tool — usage data, cost, overlap with other systems? What was the decision framework?]</p>
+    <ul>
+      <li>[Step or criterion one]</li>
+      <li>[Step or criterion two]</li>
+      <li>[Step or criterion three]</li>
+    </ul>
+
+    <div class="callout">
+      <span class="k">Key decision</span>
+      <p>[The one call that mattered most — e.g. which tool got cut and why, even though it seemed risky at the time.]</p>
+    </div>
+
+    <h2>What I built (this version)</h2>
+    <p>[Describe the interactive version of this tool built with Claude Code — what does it take as input, what does it output, and what makes it more reusable than the original one-off audit?]</p>
+
+    <h2>Result</h2>
+    <p>[Real numbers where you can share them, plus what changed operationally — not just cost savings, but what got easier.]</p>
+  </div>
+
+  <footer>
+    <p>Have a similar stack problem? <a href="mailto:michellestunkard@gmail.com">Let's talk.</a></p>
+  </footer>
+</div>
+
+</body>
+</html>
