@@ -87,7 +87,7 @@
     <div class="meta-row">
       <div class="meta-item"><span class="k">Status</span><span class="v">Live</span></div>
       <div class="meta-item"><span class="k">Impact</span><span class="v">Meta</span></div>
-      <div class="meta-item"><span class="k">Tools</span><span class="v">Claude, Claude Code, GitHub, Netlify</span></div>
+      <div class="meta-item"><span class="k">Tools</span><span class="v">Claude, Claude Code, GitHub, Vercel</span></div>
     </div>
   </header>
 
@@ -116,14 +116,14 @@
 
     <div class="callout">
       <span class="k">Key decision</span>
-      <p>My project folder had an extra layer of nesting — a "portfolio-site" folder containing another "portfolio-site" folder, and the actual index.html lived in the inner one. Claude Code caught that the repo root needed to be wherever index.html actually sits, since that's what Netlify and GitHub Pages expect to find at the top level. Easy to miss, annoying to untangle later.</p>
+      <p>My project folder had an extra layer of nesting — a "portfolio-site" folder containing another "portfolio-site" folder, and the actual index.html lived in the inner one. Claude Code caught that the repo root needed to be wherever index.html actually sits, since that's what Vercel and GitHub Pages expect to find at the top level. Easy to miss, annoying to untangle later.</p>
     </div>
 
-    <h2>Pushing to GitHub and going live on Netlify</h2>
-    <p>From there it was: create an empty repo on GitHub, add it as the remote, push. Then sign up for Netlify, connect the GitHub repo, and since this is a plain static site with no build step, leave the build command blank and point the publish directory at the repo root.</p>
+    <h2>Pushing to GitHub and going live on Vercel</h2>
+    <p>From there it was: create an empty repo on GitHub, add it as the remote, push. Then sign up for Vercel, import the GitHub repo, and since this is a plain static site with no build step, leave the build command blank and point the output directory at the repo root.</p>
 
     <h2>Where it stands now</h2>
-    <p>The site is live at <a href="https://michellestunkard.netlify.app">michellestunkard.netlify.app</a> and redeploys automatically every time changes get pushed to the main branch on GitHub — no manual upload step, ever again. The update loop going forward is: describe the change, review a live preview, commit with a clear message, push, watch Netlify pick it up. Still ahead: a custom domain, and pulling the <code>noindex</code> tag off each page as its content stops being a placeholder.</p>
+    <p>The site is live at <a href="https://playground-psi-ruby.vercel.app">playground-psi-ruby.vercel.app</a> and redeploys automatically every time changes get pushed to the main branch on GitHub — no manual upload step, ever again. The update loop going forward is: describe the change, review a live preview, commit with a clear message, push, watch Vercel pick it up. Still ahead: a custom domain, and pulling the <code>noindex</code> tag off each page as its content stops being a placeholder.</p>
 
     <h2>What I'd tell someone starting out</h2>
     <ul>
