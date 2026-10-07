@@ -62,6 +62,13 @@
   .callout .k{font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; color:#2A3FA6; margin-bottom:6px; display:block;}
   .callout p{margin:0; color:#1D2A66; font-weight:500;}
 
+  .tool-link{
+    font-family:'Fredoka',sans-serif; font-weight:500; font-size:14.5px; text-decoration:none;
+    background:var(--ink); color:#fff; padding:13px 22px; border-radius:12px; display:inline-block; margin:4px 0 16px;
+  }
+  .tool-link:hover{background:var(--work);}
+  .tool-link:focus-visible{outline:2px solid var(--work); outline-offset:2px;}
+
   footer{padding:56px 0 64px; margin-top:40px; border-top:1px solid var(--line); text-align:center;}
   footer p{color:var(--stone); font-size:13.5px;}
   footer a{font-family:'Fredoka',sans-serif; font-weight:500; text-decoration:none; color:var(--work);}
@@ -111,6 +118,8 @@
 
     <h2>What I built (this version)</h2>
     <p>[Describe the interactive version of this tool built with Claude Code — what does it take as input, what does it output, and what makes it more reusable than the original one-off audit?]</p>
+    <p><a class="tool-link" href="martech-roi-audit-tool.html">Try the audit tool &rarr;</a></p>
+    <p><em>Heads up: the tool runs on sample data. Every tool name, cost, seat count and savings figure in it is a made-up placeholder, not a real company's tech stack or contracts.</em></p>
 
     <h2>Result</h2>
     <p>[Real numbers where you can share them, plus what changed operationally — not just cost savings, but what got easier.]</p>

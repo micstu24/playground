@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MarTech Stack ROI Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --page:#FCFCFA; --surface:#ffffff; --surface-2:#F4F4F0;
+  --ink:#14161A; --ink-2:#3E4247; --muted:#6E7378;
+  --grid:#EAEBE7; --axis:#C9CAC4; --border:rgba(20,22,26,.12);
+  --accent:#3B5BFF; --accent-ink:#ffffff; --accent-soft:#EBEEFF;
+  --ov1:#9AABFF; --ov2:#2338B8; --unique:#DEDFD9;
+  --good:#0ca30c; --good-ink:#006300; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --radius:10px;
+  --font: 'Work Sans', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Fredoka', 'Work Sans', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --page:#101114; --surface:#181A1F; --surface-2:#20232A;
+    --ink:#ffffff; --ink-2:#C3C4BE; --muted:#9A9CA0;
+    --grid:#2A2D33; --axis:#383B42; --border:rgba(255,255,255,.12);
+    --accent:#6B83FF; --accent-ink:#ffffff; --accent-soft:#1B2252;
+    --ov1:#3346C7; --ov2:#A9B7FF; --unique:#3a3a37; --good-ink:#0ca30c;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --page:#101114; --surface:#181A1F; --surface-2:#20232A;
+  --ink:#ffffff; --ink-2:#C3C4BE; --muted:#9A9CA0;
+  --grid:#2A2D33; --axis:#383B42; --border:rgba(255,255,255,.12);
+  --accent:#6B83FF; --accent-ink:#ffffff; --accent-soft:#1B2252;
+  --ov1:#3346C7; --ov2:#A9B7FF; --unique:#3a3a37; --good-ink:#0ca30c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--page);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+.wrap{max-width:1160px;margin:0 auto;padding:28px 16px 64px}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+h1,h2,h3{font-family:var(--font-display);font-weight:600}
+h1{font-size:1.6rem;margin:0 0 4px;letter-spacing:-.01em}
+h2{font-size:1.1rem;margin:0 0 4px}
+h3{font-size:.95rem;margin:0 0 8px}
+.back-link{font-family:var(--font-display);font-weight:500;font-size:14px;text-decoration:none;color:var(--muted);display:inline-flex;align-items:center;gap:6px;margin-bottom:16px}
+.back-link:hover{color:var(--ink)}
+.back-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+p.lede{margin:0;color:var(--ink-2);max-width:62ch}
+.small{font-size:.85rem;color:var(--ink-2)}
+.muted{color:var(--muted)}
+button,.btn{font:inherit;font-size:.9rem;border:1px solid var(--border);background:var(--surface);color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+button:hover,.btn:hover{background:var(--surface-2)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+button.primary:hover{filter:brightness(1.07);background:var(--accent)}
+button.ghost{border-color:transparent;background:transparent;padding:4px 8px}
+button.ghost:hover{background:var(--surface-2)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px}
+nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--grid);margin-bottom:20px;overflow-x:auto}
+nav.tabs button{border:none;border-bottom:2px solid transparent;border-radius:0;background:none;padding:10px 14px;color:var(--ink-2);white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card.flush{padding:0;overflow:hidden}
+.card-head{padding:16px 18px 10px}
+.stack{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.stack>*,.grid2>*{min-width:0}
+.grid2{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.tile .label{font-size:.8rem;color:var(--ink-2)}
+.tile .value{font-size:1.7rem;font-weight:650;letter-spacing:-.01em;margin-top:2px}
+.tile .value small{font-size:1rem;color:var(--muted);font-weight:500}
+.tile .sub{font-size:.8rem;color:var(--muted)}
+.tile.hero .value{color:var(--good-ink)}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;background:var(--surface-2);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.pill i,.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.keep i,.dot.keep{background:var(--good)} .right i,.dot.right{background:var(--warning)} .review i,.dot.review{background:var(--warning);border-radius:2px;transform:rotate(45deg)}
+.cons i,.dot.cons{background:var(--serious)} .cut i,.dot.cut{background:var(--critical);border-radius:2px}
+.why{color:var(--ink-2);font-size:.83rem;max-width:48ch}
+.who{font-size:.8rem;color:var(--ink-2);margin-top:2px}
+.who b{font-weight:600;color:var(--ink)}
+.show-sm{display:none}
+.empty{padding:28px;text-align:center;color:var(--ink-2)}
+/* form */
+dialog{border:1px solid var(--border);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);width:min(720px,calc(100vw - 32px));max-height:calc(100vh - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog form{padding:20px;display:grid;gap:14px}
+.fields{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+label.f{display:grid;gap:4px;font-size:.82rem;color:var(--ink-2)}
+input,select{font:inherit;font-size:.92rem;color:var(--ink);background:var(--page);border:1px solid var(--border);border-radius:8px;padding:7px 9px;width:100%}
+input[type=checkbox]{width:auto}
+fieldset{border:1px solid var(--grid);border-radius:10px;padding:10px 12px 12px;margin:0}
+legend{font-size:.82rem;color:var(--ink-2);padding:0 4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.fchip{border-radius:999px;padding:4px 10px;font-size:.82rem;color:var(--ink-2);background:var(--page);border:1px solid var(--border)}
+.fchip[data-state="1"]{background:var(--accent);border-color:transparent;color:var(--accent-ink)}
+.fchip[data-state="2"]{border:1.5px dashed var(--accent);color:var(--ink);background:var(--accent-soft)}
+.fchip[data-state="1"]::before{content:"● "}
+.fchip[data-state="2"]::before{content:"○ "}
+.tchip{border-radius:999px;padding:3px 10px;font-size:.8rem}
+.tchip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.tchip[aria-pressed="false"]{color:var(--muted);text-decoration:line-through}
+.dlg-actions{display:flex;justify-content:flex-end;gap:8px}
+/* bars */
+.bars{display:grid;gap:8px}
+.bar-row{display:grid;grid-template-columns:minmax(90px,150px) 1fr;gap:10px;align-items:center;font-size:.85rem}
+.bar-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+.bar-track{position:relative;height:20px;display:flex;align-items:center;gap:8px}
+.bar{height:16px;background:var(--accent);border-radius:0 4px 4px 0;min-width:2px}
+.bar-val{font-variant-numeric:tabular-nums;color:var(--ink);font-size:.82rem;white-space:nowrap}
+.bar-row:hover .bar{filter:brightness(1.12)}
+/* feature matrix */
+.fm-wrap{overflow-x:auto}
+.fm{border-collapse:separate;border-spacing:0;font-size:.84rem;width:auto;min-width:100%}
+.fm th,.fm td{border-bottom:1px solid var(--grid);padding:6px 8px;background:var(--surface);vertical-align:middle}
+.fm thead th{background:var(--surface);text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink-2);vertical-align:bottom}
+.fm th.tool{height:150px;width:34px;min-width:34px;padding:0 0 8px;text-align:center}
+.fm th.tool div{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;margin:0 auto;display:flex;align-items:center;gap:6px}
+.fm th.tool.gone div span{text-decoration:line-through;color:var(--muted)}
+.fm .feat{position:sticky;left:0;z-index:1;white-space:nowrap;font-weight:500;color:var(--ink);text-transform:none;letter-spacing:0;font-size:.84rem;min-width:150px}
+.fm tr.redundant .feat{font-weight:650}
+.fm td.c{text-align:center;padding:6px 4px}
+.mk{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle}
+.mk.used{background:var(--accent)}
+.mk.avail{border:2px solid var(--accent);background:transparent}
+.mk.gone{opacity:.45}
+.fm td.home{white-space:nowrap;font-size:.82rem}
+.fm td.count{white-space:nowrap;font-size:.8rem;color:var(--ink-2)}
+.fm tbody tr:hover td,.fm tbody tr:hover th{background:var(--surface-2)}
+.badge{display:inline-block;font-size:.72rem;font-weight:600;border-radius:999px;padding:1px 7px;background:var(--surface-2);color:var(--ink-2);margin-left:6px;vertical-align:1px}
+.badge.hot{background:var(--accent-soft);color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--ink-2);margin-top:10px;align-items:center}
+.legend .mk{width:12px;height:12px;margin-right:5px;vertical-align:-2px}
+.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:10px 0 4px}
+.hidden-list{display:grid;gap:10px}
+.hidden-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--grid);border-radius:10px;background:var(--surface)}
+.hidden-item .mk{margin-top:3px}
+.hidden-item .amt{font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap}
+#tip{position:fixed;pointer-events:none;z-index:50;background:var(--ink);color:var(--page);font-size:.8rem;padding:7px 10px;border-radius:8px;max-width:300px;opacity:0;transition:opacity .08s}
+.settings{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.set{display:grid;gap:6px}
+.set .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.set output{font-variant-numeric:tabular-nums;font-weight:600}
+input[type=range]{padding:0;accent-color:var(--accent);background:none;border:none}
+.method ol{margin:8px 0 0;padding-left:20px;color:var(--ink-2)}
+.method li{margin-bottom:6px}
+.note{font-size:.82rem;color:var(--ink-2);background:var(--surface-2);border-radius:8px;padding:10px 12px;margin:0}
+.sample-note{margin:0 0 16px;border-left:3px solid var(--warning)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:640px){
+  .tile .value{font-size:1.4rem}
+  .hide-sm{display:none}
+  .show-sm{display:block;margin-top:6px}
+  .pill{white-space:normal}
+  .fm .feat{min-width:120px}
+  .hidden-item{grid-template-columns:auto minmax(0,1fr)}
+  .hidden-item .amt{grid-column:2}
+}
+@media print{
+  nav.tabs,.toolbar,.no-print,button{display:none!important}
+  .panel{display:block!important;margin-bottom:24px}
+  #panel-inventory,#panel-settings{display:none!important}
+  body{background:#fff}
+  .card,.tile,.table-wrap{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link no-print" href="martech-roi-audit.html">&larr; Back to case study</a>
+  <header class="top">
+    <div>
+      <h1>MarTech Stack ROI Audit</h1>
+      <p class="lede">List every tool in your marketing stack, who owns it and who champions it, and which features you use versus just pay for. The audit finds redundant features across tools and recommends what to keep, right-size, consolidate or cut, with estimated savings.</p>
+    </div>
+    <div class="toolbar no-print">
+      <button id="themeBtn" type="button" title="Toggle light/dark">◐ Theme</button>
+      <button id="printBtn" type="button">Print report</button>
+    </div>
+  </header>
+
+  <p class="note sample-note"><strong>Sample data only.</strong> The tools, costs, seat counts, renewal dates and savings pre-loaded here are made-up placeholders for demonstration. They do not reflect any real company's tech stack, pricing or contracts. Replace them with your own stack to run a real audit.</p>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="inventory">1. Stack inventory</button>
+    <button role="tab" aria-selected="false" data-tab="features">2. Feature comparison</button>
+    <button role="tab" aria-selected="false" data-tab="results">3. Audit results</button>
+    <button role="tab" aria-selected="false" data-tab="settings">Settings &amp; method</button>
+  </nav>
+
+  <!-- INVENTORY -->
+  <section class="panel active" id="panel-inventory">
+    <div class="stack">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+        <div>
+          <h2>Stack inventory</h2>
+          <div class="small" id="invSummary"></div>
+        </div>
+        <div class="toolbar">
+          <button class="primary" id="addBtn" type="button">+ Add tool</button>
+          <button id="importBtn" type="button">Import CSV</button>
+          <button id="exportBtn" type="button">Export CSV</button>
+          <button id="sampleBtn" type="button">Load sample stack (fictional)</button>
+          <button id="clearBtn" type="button">Clear all</button>
+          <input type="file" id="fileIn" accept=".csv,text/csv" hidden>
+        </div>
+      </div>
+      <div class="table-wrap" id="invTable"></div>
+      <p class="note">For each tool, tag the features your teams <strong>actually use</strong> and the ones it <strong>includes but nobody uses</strong>. Those unused features are where hidden redundancy lives, like a chat widget already in your automation platform while you pay for a separate chat tool. The <strong>admin owner</strong> runs the tool; the <strong>champion</strong> is the team or power user who depends on it most and should be part of any decision.</p>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="panel" id="panel-features">
+    <div class="stack" id="features"></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="panel" id="panel-results">
+    <div class="stack" id="results"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="panel" id="panel-settings">
+    <div class="stack">
+      <div class="card">
+        <h2>Thresholds</h2>
+        <p class="small" style="margin-top:0">Tune these to match your organization's risk tolerance. Results update immediately.</p>
+        <div class="settings" id="settings"></div>
+      </div>
+      <div class="card method">
+        <h2>How the audit works</h2>
+        <ol>
+          <li><strong>Value score (0–100)</strong> = 40% seat utilization (active ÷ licensed) + 35% business criticality + 25% integration with the core stack. Tools without seat data get a neutral 50% utilization.</li>
+          <li><strong>Features.</strong> Each tool's features are tagged <em>used</em> or <em>available but unused</em>. A feature is redundant when two or more tools can do it.</li>
+          <li><strong>Overlap.</strong> Tools are reviewed from highest to lowest value. For each tool, the audit checks how much of what it's <em>used for</em> is already covered by higher-value tools that are staying, counting their unused features too (you can switch that off). That share is the tool's <em>redundancy</em>.</li>
+          <li><strong>Consolidate</strong> when redundancy meets the overlap threshold and the tool isn't high-criticality. If the receiving tool only has the feature switched off, the recommendation says to turn it on first. If adoption is strong, it's flagged <em>Review</em> instead.</li>
+          <li><strong>Cut</strong> when the value score is below the cut threshold and criticality is low. Any feature only that tool provides is listed so you can confirm nobody needs it.</li>
+          <li><strong>Right-size</strong> when utilization is below target: drop to active seats plus a growth buffer, priced pro rata.</li>
+          <li><strong>People.</strong> Any change to a tool flags its champion so the team that depends on it is part of the decision, not just the admin.</li>
+          <li><strong>Savings</strong> are annual recurring. First-year net subtracts a one-time switching cost (migration, retraining) for consolidations.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="toolForm">
+    <h2 id="dlgTitle">Add tool</h2>
+    <div class="fields">
+      <label class="f">Tool name<input name="name" required maxlength="60"></label>
+      <label class="f">Category<select name="category"></select></label>
+      <label class="f">Annual cost ($)<input name="cost" type="number" min="0" step="100" required></label>
+      <label class="f">Contract renewal<input name="renewal" type="date"></label>
+      <label class="f">Admin owner<input name="admin" maxlength="40" list="teams" placeholder="e.g. Marketing Ops"></label>
+      <label class="f">Champion / power users<input name="champion" maxlength="60" list="teams" placeholder="e.g. Field Marketing"></label>
+      <label class="f">Licensed seats<input name="seats" type="number" min="0" step="1" placeholder="blank if not per-seat"></label>
+      <label class="f">Active seats (last 90 days)<input name="active" type="number" min="0" step="1"></label>
+      <label class="f">Business criticality<select name="crit"><option>Low</option><option selected>Medium</option><option>High</option></select></label>
+      <label class="f">Integration with core stack<select name="integ"><option>Native</option><option selected>Partial</option><option>None</option></select></label>
+      <label class="f" style="align-content:end"><span style="display:flex;gap:8px;align-items:center;color:var(--ink)"><input type="checkbox" name="protected"> Protected (always keep)</span></label>
+    </div>
+    <datalist id="teams"></datalist>
+    <fieldset>
+      <legend>Features</legend>
+      <div class="small" style="margin-bottom:8px">Click once for <strong>● used</strong>, again for <strong>○ available but not used</strong>, again to clear.</div>
+      <div class="chips" id="capChips"></div>
+    </fieldset>
+    <div class="dlg-actions">
+      <button type="button" id="cancelBtn">Cancel</button>
+      <button class="primary" type="submit" value="save">Save tool</button>
+    </div>
+  </form>
+</dialog>
+<div id="tip" role="tooltip"></div>
+
+<script>
+(function(){
+"use strict";
+const CATEGORIES=["CRM","Marketing automation","Email","Web & content","Analytics & BI","Advertising","Social","Sales engagement","Data & enrichment","Events & webinars","Conversion & testing","Collaboration","Other"];
+const CAPS=["CRM","Email marketing","Marketing automation","Landing pages","Forms","Web analytics","Attribution","Reporting / BI","Social publishing","Social listening","Paid ads management","SEO","CMS","A/B testing","Session recording","Live chat","Meeting scheduling","Webinars / events","Video conferencing","Video hosting","Data enrichment","Intent data","Surveys","Sales sequences"];
+const STORE="martech-roi-audit-v2", OLD_STORE="martech-roi-audit-v1";
+const DEFAULT_SETTINGS={overlap:0.75,cutScore:40,utilTarget:0.75,buffer:0.10,strongAdoption:0.85,switchPct:0.15,noticeDays:60,horizonDays:180,countAvail:true};
+
+const SAMPLE=[
+ {name:"Salesforce Sales Cloud",category:"CRM",cost:96000,seats:60,active:54,crit:"High",integ:"Native",renewal:"2027-02-01",admin:"Sales Ops",champion:"Sales leadership",caps:["CRM","Reporting / BI"],avail:["Forms"]},
+ {name:"HubSpot Marketing Hub",category:"Marketing automation",cost:43200,seats:10,active:9,crit:"High",integ:"Native",renewal:"2027-06-15",admin:"Marketing Ops",champion:"Demand Gen",caps:["Email marketing","Marketing automation","Landing pages","Forms","SEO","A/B testing","Reporting / BI"],avail:["Live chat","Meeting scheduling","Social publishing","Paid ads management","Video hosting"]},
+ {name:"Zoom Workplace",category:"Collaboration",cost:18000,seats:200,active:182,crit:"High",integ:"Native",renewal:"2027-03-15",admin:"IT",champion:"Company-wide",caps:["Video conferencing"],avail:["Webinars / events"]},
+ {name:"Mailchimp",category:"Email",cost:9600,seats:5,active:2,crit:"Low",integ:"None",renewal:"2026-11-30",admin:"Marketing Ops",champion:"Brand",caps:["Email marketing","Landing pages","Forms"],avail:["Social publishing"]},
+ {name:"Unbounce",category:"Conversion & testing",cost:7200,seats:3,active:1,crit:"Low",integ:"Partial",renewal:"2026-12-10",admin:"Marketing Ops",champion:"Demand Gen",caps:["Landing pages","A/B testing","Forms"],avail:[]},
+ {name:"Optimizely",category:"Conversion & testing",cost:36000,seats:4,active:1,crit:"Medium",integ:"Partial",renewal:"2027-01-20",admin:"Marketing Ops",champion:"Web team",caps:["A/B testing"],avail:[]},
+ {name:"Drift",category:"Conversion & testing",cost:30000,seats:6,active:2,crit:"Medium",integ:"Partial",renewal:"2026-12-31",admin:"Marketing Ops",champion:"SDR team",caps:["Live chat","Meeting scheduling"],avail:["Forms"]},
+ {name:"ON24",category:"Events & webinars",cost:22000,seats:4,active:3,crit:"Medium",integ:"Partial",renewal:"2027-01-15",admin:"Marketing Ops",champion:"Field Marketing",caps:["Webinars / events"],avail:["Video hosting"]},
+ {name:"Wistia",category:"Web & content",cost:8400,seats:6,active:3,crit:"Medium",integ:"Partial",renewal:"2027-04-20",admin:"Marketing Ops",champion:"Content",caps:["Video hosting"],avail:["Webinars / events"]},
+ {name:"Hootsuite",category:"Social",cost:14400,seats:8,active:3,crit:"Medium",integ:"Partial",renewal:"2027-03-01",admin:"Marketing Ops",champion:"Social team",caps:["Social publishing","Social listening"],avail:["Paid ads management"]},
+ {name:"Google Analytics 4",category:"Analytics & BI",cost:0,seats:"",active:"",crit:"High",integ:"Native",renewal:"",admin:"Web team",champion:"Analytics",caps:["Web analytics","Attribution"],avail:[]},
+ {name:"Hotjar",category:"Analytics & BI",cost:3900,seats:5,active:4,crit:"Low",integ:"None",renewal:"2027-04-01",admin:"Web team",champion:"UX research",caps:["Session recording","Surveys"],avail:[]},
+ {name:"Tableau",category:"Analytics & BI",cost:16800,seats:12,active:3,crit:"Medium",integ:"Partial",renewal:"2027-05-01",admin:"Analytics",champion:"Finance",caps:["Reporting / BI"],avail:[]},
+ {name:"ZoomInfo",category:"Data & enrichment",cost:28000,seats:15,active:8,crit:"High",integ:"Native",renewal:"2027-01-05",admin:"Sales Ops",champion:"SDR team",caps:["Data enrichment","Intent data"],avail:[]},
+ {name:"SurveyMonkey",category:"Other",cost:4500,seats:5,active:1,crit:"Low",integ:"None",renewal:"2026-11-15",admin:"Marketing Ops",champion:"Product Marketing",caps:["Surveys","Forms"],avail:[]},
+ {name:"Semrush",category:"Web & content",cost:5000,seats:3,active:3,crit:"Medium",integ:"None",renewal:"2027-02-15",admin:"Marketing Ops",champion:"Content",caps:["SEO"],avail:[]}
+];
+
+let state={tools:[],settings:{...DEFAULT_SETTINGS},editing:null,theme:null,fOnlyRedundant:true,fHidden:[]};
+
+/* ---------- storage (best-effort) ---------- */
+function save(){try{localStorage.setItem(STORE,JSON.stringify({tools:state.tools,settings:state.settings,theme:state.theme}))}catch(e){}}
+function load(){
+  try{const raw=localStorage.getItem(STORE)||localStorage.getItem(OLD_STORE);if(raw){const d=JSON.parse(raw);if(Array.isArray(d.tools)){state.tools=d.tools.map(norm);state.settings={...DEFAULT_SETTINGS,...(d.settings||{})};state.theme=d.theme||null;return true}}}catch(e){}
+  return false;
+}
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>{n=Math.round(n||0);const a=Math.abs(n);let s=a>=1e6?"$"+(a/1e6).toFixed(a>=1e7?1:2).replace(/\.0+$/,"")+"M":a>=1e4?"$"+(a/1e3).toFixed(a>=1e5?0:1).replace(/\.0$/,"")+"K":"$"+a.toLocaleString();return n<0?"−"+s:s};
+const moneyFull=n=>(n<0?"−":"")+"$"+Math.abs(Math.round(n||0)).toLocaleString();
+const pct=n=>Math.round(n*100)+"%";
+const num=v=>{if(v===""||v===null||v===undefined)return "";const n=Number(v);return isFinite(n)&&n>=0?n:""};
+const list=a=>a.length<=1?a.join(""):a.length===2?a.join(" and "):a.slice(0,-1).join(", ")+" and "+a[a.length-1];
+let uid=0;const newId=()=>"t"+Date.now().toString(36)+(uid++);
+function norm(t){
+  const caps=[...new Set((t.caps||[]).filter(c=>CAPS.includes(c)))];
+  return {id:t.id||newId(),name:String(t.name||"Untitled").trim(),category:CATEGORIES.includes(t.category)?t.category:"Other",
+    cost:Number(t.cost)||0,seats:num(t.seats),active:num(t.active),
+    crit:["Low","Medium","High"].includes(t.crit)?t.crit:"Medium",integ:["Native","Partial","None"].includes(t.integ)?t.integ:"Partial",
+    renewal:/^\d{4}-\d{2}-\d{2}$/.test(t.renewal||"")?t.renewal:"",
+    admin:String(t.admin??t.owner??"").trim(),champion:String(t.champion||"").trim(),
+    caps,avail:[...new Set((t.avail||[]).filter(c=>CAPS.includes(c)&&!caps.includes(c)))],protected:!!t.protected};
+}
+const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const parseDate=s=>{if(!s)return null;const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const fmtDate=d=>d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+const whoLine=t=>{const p=[];if(t.admin)p.push(`Admin: <b>${esc(t.admin)}</b>`);if(t.champion)p.push(`Champion: <b>${esc(t.champion)}</b>`);return p.length?`<div class="who">${p.join(" · ")}</div>`:""};
+
+/* ---------- audit engine ---------- */
+function audit(tools,S){
+  const critW={Low:1/3,Medium:2/3,High:1}, integW={Native:1,Partial:.5,None:0};
+  const has=(t,c)=>t.caps.includes(c)||(S.countAvail&&t.avail.includes(c));
+  const rows=tools.map(t=>{
+    const hasSeats=t.seats!==""&&t.seats>0&&t.active!=="";
+    const util=hasSeats?Math.min(1,t.active/t.seats):null;
+    const score=Math.round(100*(.40*(util??.5)+.35*critW[t.crit]+.25*integW[t.integ]));
+    return {t,util,hasSeats,score,action:"Keep",cls:"keep",savings:0,oneTime:0,why:[],redundancy:0,into:null,lost:[],enable:[]};
+  });
+  const order=[...rows].sort((a,b)=>b.score-a.score||b.t.cost-a.t.cost||a.t.name.localeCompare(b.t.name));
+  const kept=[];
+  for(const r of order){
+    const t=r.t, caps=t.caps;
+    const coverers=c=>kept.filter(k=>has(k.t,c));
+    const covered=caps.filter(c=>coverers(c).length);
+    const uncovered=caps.filter(c=>!covered.includes(c));
+    r.redundancy=caps.length?covered.length/caps.length:0;
+    let best=null,bestN=0;
+    // best absorber: covers the most of this tool's job; ties go to the tool already *using* those features, then higher score
+    let bestU=0;
+    for(const k of kept){const n=caps.filter(c=>has(k.t,c)).length, u=caps.filter(c=>k.t.caps.includes(c)).length;
+      if(n>bestN||(n===bestN&&n>0&&(u>bestU||(u===bestU&&k.score>best.score)))){best=k;bestN=n;bestU=u}}
+    // features that would need switching on (covered only by an unused feature elsewhere)
+    const enableFor=()=>{const out={};covered.forEach(c=>{if(kept.some(k=>k.t.caps.includes(c)))return;const k=coverers(c).sort((a,b)=>(b===best)-(a===best)||b.score-a.score)[0];(out[k.t.name]=out[k.t.name]||[]).push(c)});return out};
+    const champ=()=>{if(t.champion)r.why.push(`Loop in ${t.champion} (champion) before deciding.`)};
+    if(t.protected){
+      r.why.push("Marked protected, so it stays regardless of score.");
+      if(r.redundancy>=.5)r.why.push(`${pct(r.redundancy)} of what it's used for is also available elsewhere — useful leverage at renewal.`);
+      kept.push(r);continue;
+    }
+    if(caps.length&&r.redundancy>=S.overlap&&t.crit!=="High"){
+      if(r.util!==null&&r.util>=S.strongAdoption){
+        r.action="Review overlap";r.cls="review";
+        r.why.push(`${pct(r.redundancy)} overlap with ${best.t.name}, but ${pct(r.util)} of seats are active. Check whether it's the better tool before consolidating.`);
+        champ();kept.push(r);continue;
+      }
+      r.action="Consolidate";r.cls="cons";r.into=best.t.name;r.savings=t.cost;r.oneTime=t.cost*S.switchPct;
+      const others=[...new Set(covered.flatMap(c=>coverers(c).map(k=>k.t.name)))].filter(n=>n!==best.t.name);
+      r.why.push(`${pct(r.redundancy)} of what it's used for is covered by ${best.t.name}${others.length?" and "+list(others):""}.`);
+      const en=enableFor();r.enable=Object.entries(en);
+      r.enable.forEach(([tool,cs])=>r.why.push(`Turn on ${list(cs)} in ${tool} first (paid for, not in use).`));
+      if(r.hasSeats)r.why.push(`${pct(r.util)} seat utilization.`);
+      if(uncovered.length){r.lost=uncovered;r.why.push(`Gap to plan for: ${list(uncovered)}.`)}
+      champ();continue;
+    }
+    if(r.score<S.cutScore&&t.crit==="Low"){
+      r.action="Cut";r.cls="cut";r.savings=t.cost;r.lost=uncovered;
+      r.why.push(`Low value score (${r.score}) and low business criticality.`);
+      if(r.hasSeats)r.why.push(`Only ${t.active} of ${t.seats} seats active.`);
+      r.why.push(uncovered.length?`Confirm nobody needs: ${list(uncovered)}.`:"Everything it's used for is covered elsewhere.");
+      champ();continue;
+    }
+    if(r.hasSeats&&r.util<S.utilTarget){
+      const target=Math.max(1,Math.ceil(t.active*(1+S.buffer)));
+      if(target<t.seats){
+        r.action="Right-size";r.cls="right";r.target=target;r.savings=(t.seats-target)*(t.cost/t.seats);
+        r.why.push(`${t.active} of ${t.seats} seats active (${pct(r.util)}). Drop to ${target} seats, keeping a ${pct(S.buffer)} growth buffer.`);
+      }
+    }
+    if(r.action==="Keep"){
+      r.why.push(`Value score ${r.score}${r.hasSeats?`, ${pct(r.util)} seat utilization`:""}.`);
+      if(!caps.length)r.why.push("No features tagged as used, so overlap couldn't be checked.");
+      else if(uncovered.length===caps.length)r.why.push("Only tool providing "+list(caps)+".");
+    }
+    if(r.redundancy>=.5&&best)r.why.push(`Partial overlap (${pct(r.redundancy)}) with ${best.t.name}.`);
+    if(r.action==="Right-size")champ();
+    kept.push(r);
+  }
+  const total=tools.reduce((s,t)=>s+t.cost,0);
+  const savings=rows.reduce((s,r)=>s+r.savings,0);
+  const oneTime=rows.reduce((s,r)=>s+r.oneTime,0);
+  const removed=r=>r.cls==="cons"||r.cls==="cut";
+  const keptRows=rows.filter(r=>!removed(r));
+  const usedCaps=CAPS.filter(c=>tools.some(t=>t.caps.includes(c)));
+  const lostCaps=usedCaps.filter(c=>!keptRows.some(r=>has(r.t,c)));
+  // per-feature view (always counts available, independent of setting)
+  const feats=CAPS.map(c=>{
+    const users=rows.filter(r=>r.t.caps.includes(c)), avail=rows.filter(r=>r.t.avail.includes(c));
+    const able=[...users,...avail];
+    const homeUse=keptRows.filter(r=>r.t.caps.includes(c)).sort((a,b)=>b.score-a.score)[0];
+    const homeAv=keptRows.filter(r=>r.t.avail.includes(c)).sort((a,b)=>b.score-a.score)[0];
+    const home=(homeUse&&(!homeAv||homeUse.score>=homeAv.score))?{r:homeUse,on:true}:homeAv?{r:homeAv,on:false}:null;
+    return {c,users,avail,able,home,redundant:able.length>1,spend:users.reduce((s,r)=>s+r.t.cost,0)};
+  }).filter(f=>f.able.length);
+  // features paid for more than once: used in 2+ tools, or used in one while sitting unused in another
+  const gone=r=>r.cls==="cons"||r.cls==="cut";
+  const hidden=feats.filter(f=>f.users.length&&(f.users.length>1||f.avail.length)).map(f=>({...f,retire:f.users.filter(gone),atStake:f.users.filter(gone).reduce((s,r)=>s+r.t.cost,0)}))
+    .sort((a,b)=>b.atStake-a.atStake||b.able.length-a.able.length);
+  const seatsL=tools.reduce((s,t)=>s+(t.seats!==""&&t.active!==""?t.seats:0),0), seatsA=tools.reduce((s,t)=>s+(t.seats!==""&&t.active!==""?Math.min(t.active,t.seats):0),0);
+  return {rows,total,savings,oneTime,keptCount:keptRows.length,lostCaps,feats,hidden,seatUtil:seatsL?seatsA/seatsL:null,
+    redundantFeats:feats.filter(f=>f.redundant),unusedCount:rows.reduce((s,r)=>s+r.t.avail.length,0)};
+}
+
+/* ---------- inventory UI ---------- */
+function renderInventory(){
+  const T=state.tools;
+  const total=T.reduce((s,t)=>s+t.cost,0);
+  $("#invSummary").textContent=T.length?`${T.length} tool${T.length===1?"":"s"} · ${moneyFull(total)} per year`:"No tools yet. Add your stack, import a CSV, or load the sample.";
+  if(!T.length){$("#invTable").innerHTML=`<div class="empty">Your stack is empty.<br><span class="small">Start with “+ Add tool”, or load the sample stack to see how the audit works.</span></div>`;return}
+  const feat=t=>{const u=t.caps.map(esc).join(", "), a=t.avail.map(esc).join(", ");
+    return (u?`<div>● ${u}</div>`:'<div class="muted">No features tagged</div>')+(a?`<div class="muted">○ ${a}</div>`:"")};
+  const rows=[...T].sort((a,b)=>b.cost-a.cost).map(t=>`<tr>
+    <td><strong>${esc(t.name)}</strong>${t.protected?' <span class="small muted" title="Protected">🔒</span>':""}<div class="small muted">${esc(t.category)}</div><div class="show-sm">${whoLine(t)}</div></td>
+    <td class="num">${moneyFull(t.cost)}</td>
+    <td class="num">${t.seats!==""?`${t.active===""?"?":t.active} / ${t.seats}`:'<span class="muted">—</span>'}</td>
+    <td class="hide-sm small">${t.admin?esc(t.admin):'<span class="muted">—</span>'}</td>
+    <td class="hide-sm small">${t.champion?esc(t.champion):'<span class="muted">—</span>'}</td>
+    <td class="hide-sm small">${esc(t.crit)}<div class="muted">${esc(t.integ)} integration</div></td>
+    <td class="hide-sm small" style="min-width:200px">${feat(t)}</td>
+    <td class="hide-sm small">${t.renewal?fmtDate(parseDate(t.renewal)):'<span class="muted">—</span>'}</td>
+    <td style="white-space:nowrap"><button class="ghost" data-edit="${t.id}" aria-label="Edit ${esc(t.name)}">Edit</button><button class="ghost" data-del="${t.id}" aria-label="Delete ${esc(t.name)}">✕</button></td></tr>`).join("");
+  $("#invTable").innerHTML=`<table><thead><tr><th>Tool</th><th class="num">Annual cost</th><th class="num">Active / seats</th><th class="hide-sm">Admin owner</th><th class="hide-sm">Champion</th><th class="hide-sm">Criticality</th><th class="hide-sm">Features (● used ○ unused)</th><th class="hide-sm">Renewal</th><th><span class="sr">Actions</span></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+/* ---------- feature comparison UI ---------- */
+function renderFeatures(){
+  const el=$("#features");
+  if(!state.tools.length){el.innerHTML=`<div class="card empty">Add tools in the inventory tab to compare features.</div>`;return}
+  const A=audit(state.tools,state.settings);
+  const tools=[...A.rows].sort((a,b)=>b.score-a.score);
+  const shown=tools.filter(r=>!state.fHidden.includes(r.t.id));
+  const feats=A.feats.filter(f=>!state.fOnlyRedundant||f.redundant).filter(f=>f.able.some(r=>shown.includes(r)));
+  const gone=r=>r.cls==="cons"||r.cls==="cut";
+  const f_home=h=>h.home?` <span class="small">→ keep in <strong>${esc(h.home.r.t.name)}</strong>${h.home.on?"":' <span class="badge hot">turn on</span>'}</span>`:"";
+
+  const tiles=`<div class="tiles">
+    <div class="tile"><div class="label">Features in use</div><div class="value">${A.feats.filter(f=>f.users.length).length}</div><div class="sub">across ${state.tools.length} tools</div></div>
+    <div class="tile"><div class="label">Redundant features</div><div class="value">${A.redundantFeats.length}</div><div class="sub">2+ tools can do them</div></div>
+    <div class="tile"><div class="label">Paid-for features unused</div><div class="value">${A.unusedCount}</div><div class="sub">licensed but nobody uses them</div></div>
+    <div class="tile"><div class="label">Features paid for more than once</div><div class="value">${A.hidden.length}</div><div class="sub">${money(A.hidden.reduce((s,h)=>s+h.atStake,0)>0?A.rows.filter(r=>r.cls==="cons"||r.cls==="cut").reduce((s,r)=>s+r.t.cost,0):0)} in tools flagged to retire</div></div>
+  </div>`;
+
+  const tl=rs=>rs.map(r=>`${esc(r.t.name)}${r.t.champion?` <span class="muted">(${esc(r.t.champion)})</span>`:""}`).join(", ");
+  const hiddenCard=A.hidden.length?`<div class="card"><h2>Features you're paying for more than once</h2>
+    <div class="small" style="margin-bottom:12px">Each feature below is used in more than one tool, or used in one tool while another tool already includes it unused. Champions are in parentheses.</div>
+    <div class="hidden-list">${A.hidden.map(h=>`<div class="hidden-item"><span class="mk ${h.avail.length?"avail":"used"}" aria-hidden="true"></span>
+      <div><strong>${esc(h.c)}</strong>${f_home(h)}
+        <div class="small">Used in ${tl(h.users)}${h.avail.length?`<br>Included but unused in ${tl(h.avail)}`:""}</div></div>
+      <div class="amt">${h.atStake?`${money(h.atStake)}/yr<div class="small" style="font-weight:400">in tools flagged to retire</div>`:'<span class="small muted" style="font-weight:400">No tool flagged</span>'}</div></div>`).join("")}</div></div>`:"";
+  const chips=tools.map(r=>`<button type="button" class="tchip" data-tool="${r.t.id}" aria-pressed="${!state.fHidden.includes(r.t.id)}">${esc(r.t.name)}</button>`).join("");
+  const head=shown.map(r=>`<th class="tool${gone(r)?" gone":""}" scope="col" data-tip="${esc(`<strong>${esc(r.t.name)}</strong><br>${r.action}${r.into?" → "+esc(r.into):""} · score ${r.score}${r.t.champion?`<br>Champion: ${esc(r.t.champion)}`:""}`)}"><div><i class="dot ${r.cls}" aria-label="${r.action}"></i><span>${esc(r.t.name)}</span></div></th>`).join("");
+  const body=feats.map(f=>{
+    const cells=shown.map(r=>{
+      const u=r.t.caps.includes(f.c), a=r.t.avail.includes(f.c);
+      if(!u&&!a)return `<td class="c"></td>`;
+      const tip=`<strong>${esc(r.t.name)}</strong> · ${esc(f.c)}<br>${u?"Used":"Included, not in use"}${gone(r)?`<br>Recommended: ${r.action}`:""}${r.t.champion?`<br>Champion: ${esc(r.t.champion)}`:""}`;
+      return `<td class="c" data-tip="${esc(tip)}"><span class="mk ${u?"used":"avail"}${gone(r)?" gone":""}" aria-label="${esc(r.t.name)}: ${u?"used":"available, not used"}"></span></td>`}).join("");
+    const home=f.home?`${esc(f.home.r.t.name)}${f.home.on?"":' <span class="badge hot">turn on</span>'}`:'<span class="muted">No tool kept</span>';
+    return `<tr class="${f.redundant?"redundant":""}"><th class="feat" scope="row">${esc(f.c)}${f.able.length>1?`<span class="badge${f.able.length>2?" hot":""}">${f.able.length} tools</span>`:""}</th>${cells}
+      <td class="count">${f.users.length} use${f.avail.length?` · ${f.avail.length} unused`:""}</td><td class="home">${home}</td></tr>`}).join("");
+
+  const matrix=`<div class="card"><h2>Feature comparison</h2>
+    <div class="small">Rows are features, columns are tools (highest value score first). The last column shows where each feature should live after the audit.</div>
+    <div class="controls no-print">
+      <label class="small" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="fOnly" ${state.fOnlyRedundant?"checked":""}> Only features 2+ tools can do</label>
+      <span class="small">Compare: <button type="button" class="ghost" id="fAll">all</button><button type="button" class="ghost" id="fNone">none</button></span>
+    </div>
+    <div class="chips no-print" id="fChips" style="margin-bottom:12px">${chips}</div>
+    ${feats.length&&shown.length?`<div class="fm-wrap"><table class="fm"><thead><tr><th class="feat" scope="col">Feature</th>${head}<th scope="col">Tools</th><th scope="col">Recommended home</th></tr></thead><tbody>${body}</tbody></table></div>`:`<div class="empty small">No features match. Turn off the filter or select more tools.</div>`}
+    <div class="legend"><span><span class="mk used"></span>Used</span><span><span class="mk avail"></span>Included, not in use</span><span><span class="mk used gone"></span>Faded = tool recommended for consolidation or cut</span><span><span class="badge hot" style="margin:0 4px 0 0">turn on</span>home tool has it but it's switched off</span></div>
+  </div>`;
+  el.innerHTML=tiles+hiddenCard+matrix;
+}
+$("#features").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.tool){const id=b.dataset.tool;state.fHidden=state.fHidden.includes(id)?state.fHidden.filter(x=>x!==id):[...state.fHidden,id];renderFeatures()}
+  if(b.id==="fAll"){state.fHidden=[];renderFeatures()}
+  if(b.id==="fNone"){state.fHidden=state.tools.map(t=>t.id);renderFeatures()}
+});
+$("#features").addEventListener("change",e=>{if(e.target.id==="fOnly"){state.fOnlyRedundant=e.target.checked;renderFeatures()}});
+
+/* ---------- results UI ---------- */
+function renderResults(){
+  const el=$("#results");
+  if(!state.tools.length){el.innerHTML=`<div class="card empty">Add tools in the inventory tab to run the audit.</div>`;return}
+  const S=state.settings, A=audit(state.tools,S);
+  const flagged=A.rows.filter(r=>r.savings>0);
+  const removed=A.rows.filter(r=>r.cls==="cons"||r.cls==="cut");
+  const firstYear=A.savings-A.oneTime;
+  const champs=[...new Set(A.rows.filter(r=>r.cls!=="keep"&&r.t.champion).map(r=>r.t.champion))];
+  const tiles=`<div class="tiles">
+    <div class="tile"><div class="label">Annual stack spend</div><div class="value">${money(A.total)}</div><div class="sub">${state.tools.length} tools</div></div>
+    <div class="tile hero"><div class="label">Recurring savings identified</div><div class="value">${money(A.savings)}</div><div class="sub">${A.total?pct(A.savings/A.total):"0%"} of spend · ${money(firstYear)} first-year net</div></div>
+    <div class="tile"><div class="label">Tools after audit</div><div class="value">${A.keptCount} <small>of ${state.tools.length}</small></div><div class="sub">${removed.length} consolidated or cut</div></div>
+    <div class="tile"><div class="label">Seat utilization</div><div class="value">${A.seatUtil===null?"—":pct(A.seatUtil)}</div><div class="sub">across per-seat tools</div></div>
+    <div class="tile"><div class="label">Champions to consult</div><div class="value">${champs.length}</div><div class="sub">${champs.length?esc(champs.slice(0,3).join(", "))+(champs.length>3?"…":""):"no changes proposed"}</div></div>
+  </div>`;
+
+  const ordA={cut:0,cons:1,right:2,review:3,keep:4};
+  const recRows=[...A.rows].sort((a,b)=>ordA[a.cls]-ordA[b.cls]||b.savings-a.savings||b.t.cost-a.t.cost).map(r=>`<tr>
+    <td><strong>${esc(r.t.name)}</strong><div class="small muted">${moneyFull(r.t.cost)}/yr</div>${whoLine(r.t)}<div class="why show-sm">${r.why.map(esc).join(" ")}</div></td>
+    <td><span class="pill ${r.cls}"><i aria-hidden="true"></i>${r.action}${r.into?` → ${esc(r.into)}`:""}</span></td>
+    <td class="num hide-sm">${r.score}</td>
+    <td class="num">${r.savings?moneyFull(r.savings):'<span class="muted">—</span>'}</td>
+    <td class="why hide-sm">${r.why.map(esc).join(" ")}</td></tr>`).join("");
+  const recs=`<div class="card flush"><div class="card-head"><h2>Recommendations</h2><div class="small">Sorted by action. Value score is 0–100.</div></div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Tool &amp; people</th><th>Action</th><th class="num hide-sm">Score</th><th class="num">Savings</th><th class="hide-sm">Why</th></tr></thead><tbody>${recRows}</tbody></table></div></div>`;
+
+  const maxS=Math.max(1,...flagged.map(r=>r.savings));
+  const bars=[...flagged].sort((a,b)=>b.savings-a.savings).map(r=>`<div class="bar-row" data-tip="${esc(`<strong>${esc(r.t.name)}</strong><br>${r.action}${r.into?" → "+esc(r.into):""}<br>${moneyFull(r.savings)} per year${r.oneTime?`<br>One-time switching cost ≈ ${moneyFull(r.oneTime)}`:""}`)}">
+      <div class="nm" title="${esc(r.t.name)}">${esc(r.t.name)}</div>
+      <div class="bar-track"><div class="bar" style="width:calc((100% - 72px) * ${(r.savings/maxS).toFixed(3)})"></div><span class="bar-val">${money(r.savings)}</span></div></div>`).join("");
+  const byAction={};flagged.forEach(r=>byAction[r.action]=(byAction[r.action]||0)+r.savings);
+  const savingsCard=`<div class="card"><h2>Savings by tool</h2><div class="small" style="margin-bottom:12px">${Object.entries(byAction).map(([k,v])=>`${k}: ${money(v)}`).join(" · ")||"No savings identified at current thresholds."}</div><div class="bars">${bars}</div></div>`;
+
+  const t0=today(), horizon=new Date(t0.getTime()+S.horizonDays*864e5);
+  const ren=A.rows.filter(r=>r.t.renewal).map(r=>({r,d:parseDate(r.t.renewal)})).filter(x=>x.d>=t0&&x.d<=horizon).sort((a,b)=>a.d-b.d);
+  const renRows=ren.map(({r,d})=>{const by=new Date(d.getTime()-S.noticeDays*864e5);const late=by<t0;
+    return `<tr><td><strong>${esc(r.t.name)}</strong>${r.t.champion?`<div class="who">Loop in <b>${esc(r.t.champion)}</b></div>`:""}</td><td class="num">${fmtDate(d)}</td><td class="num" style="${late?"color:var(--critical);font-weight:600":""}">${late?"⚠ ":""}${fmtDate(by)}</td><td><span class="pill ${r.cls}"><i aria-hidden="true"></i>${r.action}</span></td></tr>`}).join("");
+  const renCard=`<div class="card flush"><div class="card-head"><h2>Upcoming renewals</h2><div class="small">Next ${S.horizonDays} days. “Decide by” allows a ${S.noticeDays}-day notice period; ⚠ means the notice window has already started.</div></div>
+    ${ren.length?`<div style="overflow-x:auto"><table><thead><tr><th>Tool</th><th class="num">Renews</th><th class="num">Decide by</th><th>Action</th></tr></thead><tbody>${renRows}</tbody></table></div>`:`<div class="empty small">No renewals in the next ${S.horizonDays} days.</div>`}</div>`;
+
+  const enables=A.rows.flatMap(r=>r.enable.map(([tool,cs])=>`${list(cs)} in ${tool} (replacing ${r.t.name})`));
+  const notes=(A.lostCaps.length?`<p class="note">⚠ Features with no remaining tool after these changes: <strong>${A.lostCaps.map(esc).join(", ")}</strong>. Confirm they're unused, or mark a tool Protected.</p>`:"")+
+    (enables.length?`<p class="note">○ Before cancelling, switch on: ${enables.map(esc).join("; ")}.</p>`:"");
+  el.innerHTML=tiles+notes+recs+`<div class="grid2">${savingsCard}${renCard}</div>`+
+    `<p class="small muted">See the Feature comparison tab for the full feature-by-tool breakdown. Estimates assume per-seat pricing scales linearly and that consolidation targets can absorb the workload at no added cost. Validate with vendors before acting. Generated ${fmtDate(new Date())}.</p>`;
+}
+
+/* ---------- settings UI ---------- */
+const SET_DEFS=[
+ {k:"overlap",label:"Overlap threshold to consolidate",min:.5,max:1,step:.05,fmt:pct},
+ {k:"cutScore",label:"Cut tools scoring below",min:10,max:70,step:5,fmt:v=>v},
+ {k:"utilTarget",label:"Right-size when utilization is below",min:.4,max:1,step:.05,fmt:pct},
+ {k:"buffer",label:"Seat growth buffer",min:0,max:.5,step:.05,fmt:pct},
+ {k:"strongAdoption",label:"“Strong adoption” utilization",min:.6,max:1,step:.05,fmt:pct},
+ {k:"switchPct",label:"One-time switching cost (% of annual cost)",min:0,max:1,step:.05,fmt:pct},
+ {k:"noticeDays",label:"Renewal notice period (days)",min:0,max:120,step:15,fmt:v=>v},
+ {k:"horizonDays",label:"Renewal look-ahead (days)",min:30,max:365,step:15,fmt:v=>v}
+];
+function renderSettings(){
+  $("#settings").innerHTML=SET_DEFS.map(d=>`<label class="set"><span class="row"><span class="small">${d.label}</span><output id="o-${d.k}">${d.fmt(state.settings[d.k])}</output></span>
+    <input type="range" data-k="${d.k}" min="${d.min}" max="${d.max}" step="${d.step}" value="${state.settings[d.k]}"></label>`).join("")+
+    `<label class="set" style="align-content:center"><span style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="countAvail" ${state.settings.countAvail?"checked":""} style="margin-top:4px"><span class="small">Count features a tool <em>includes but doesn't use</em> as coverage when consolidating</span></span></label>`+
+    `<div style="align-self:end"><button type="button" id="resetSet">Reset to defaults</button></div>`;
+}
+function renderAll(){renderInventory();renderFeatures();renderResults()}
+$("#settings").addEventListener("input",e=>{const k=e.target.dataset.k;if(!k)return;const v=Number(e.target.value);state.settings[k]=v;$("#o-"+k).textContent=SET_DEFS.find(d=>d.k===k).fmt(v);save();renderFeatures();renderResults()});
+$("#settings").addEventListener("change",e=>{if(e.target.id==="countAvail"){state.settings.countAvail=e.target.checked;save();renderFeatures();renderResults()}});
+$("#settings").addEventListener("click",e=>{if(e.target.id==="resetSet"){state.settings={...DEFAULT_SETTINGS};save();renderSettings();renderFeatures();renderResults()}});
+
+/* ---------- dialog ---------- */
+const dlg=$("#dlg"), form=$("#toolForm");
+form.category.innerHTML=CATEGORIES.map(c=>`<option>${c}</option>`).join("");
+const STATE_LBL=["not used","used","available but not used"];
+$("#capChips").innerHTML=CAPS.map(c=>`<button type="button" class="fchip" data-cap="${esc(c)}" data-state="0" aria-label="${esc(c)}: not used">${esc(c)}</button>`).join("");
+$("#capChips").addEventListener("click",e=>{const b=e.target.closest(".fchip");if(!b)return;const s=(Number(b.dataset.state)+1)%3;b.dataset.state=s;b.setAttribute("aria-label",`${b.dataset.cap}: ${STATE_LBL[s]}`)});
+function setChips(t){document.querySelectorAll("#capChips .fchip").forEach(b=>{const c=b.dataset.cap;const s=t&&t.caps.includes(c)?1:t&&t.avail.includes(c)?2:0;b.dataset.state=s;b.setAttribute("aria-label",`${c}: ${STATE_LBL[s]}`)})}
+function openForm(t){
+  state.editing=t?t.id:null;$("#dlgTitle").textContent=t?"Edit tool":"Add tool";form.reset();
+  $("#teams").innerHTML=[...new Set(["Marketing Ops",...state.tools.flatMap(x=>[x.admin,x.champion])].filter(Boolean))].map(v=>`<option value="${esc(v)}">`).join("");
+  if(t){for(const k of ["name","category","cost","admin","champion","seats","active","crit","integ","renewal"])form[k].value=t[k];form.protected.checked=t.protected}
+  setChips(t);
+  if(typeof dlg.showModal==="function")dlg.showModal();else dlg.setAttribute("open","");
+  form.name.focus();
+}
+function closeForm(){if(typeof dlg.close==="function")dlg.close();else dlg.removeAttribute("open")}
+$("#cancelBtn").onclick=closeForm;
+form.addEventListener("submit",e=>{
+  e.preventDefault();
+  const f=form, seats=num(f.seats.value), active=num(f.active.value);
+  if(seats!==""&&active!==""&&active>seats){f.active.setCustomValidity("Active seats can't exceed licensed seats");f.active.reportValidity();return}
+  f.active.setCustomValidity("");
+  const chips=[...document.querySelectorAll("#capChips .fchip")];
+  const t=norm({id:state.editing||undefined,name:f.name.value,category:f.category.value,cost:f.cost.value,admin:f.admin.value,champion:f.champion.value,seats,active,crit:f.crit.value,integ:f.integ.value,renewal:f.renewal.value,protected:f.protected.checked,
+    caps:chips.filter(b=>b.dataset.state==="1").map(b=>b.dataset.cap),avail:chips.filter(b=>b.dataset.state==="2").map(b=>b.dataset.cap)});
+  if(state.editing)state.tools=state.tools.map(x=>x.id===state.editing?t:x);else state.tools.push(t);
+  closeForm();refresh();
+});
+form.active.addEventListener("input",()=>form.active.setCustomValidity(""));
+
+/* ---------- CSV ---------- */
+const COLS=["name","category","cost","seats","active","crit","integ","renewal","admin","champion","protected","used_features","unused_features"];
+function toCSV(){
+  const q=v=>{v=String(v??"");return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  const val=(t,k)=>k==="used_features"?t.caps.join("|"):k==="unused_features"?t.avail.join("|"):k==="protected"?(t.protected?"yes":""):t[k];
+  return [COLS.join(",")].concat(state.tools.map(t=>COLS.map(k=>q(val(t,k))).join(","))).join("\n");
+}
+function parseCSV(text){
+  const out=[];let row=[],f="",q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;else if(c===","){row.push(f);f=""}else if(c==="\n"||c==="\r"){if(c==="\r"&&text[i+1]==="\n")i++;row.push(f);out.push(row);row=[];f=""}else f+=c}
+  if(f!==""||row.length){row.push(f);out.push(row)}
+  return out.filter(r=>r.some(x=>x.trim()!==""));
+}
+function importCSV(text){
+  const rows=parseCSV(text.replace(/^﻿/,""));if(rows.length<2)throw new Error("No data rows found.");
+  const head=rows[0].map(h=>h.trim().toLowerCase().replace(/[\s/-]+/g,"_"));
+  const idx=(...ks)=>{for(const k of ks){const i=head.indexOf(k);if(i>=0)return i}return -1};
+  if(idx("name","tool")<0)throw new Error("CSV needs at least a “name” column.");
+  const capMap=Object.fromEntries(CAPS.map(c=>[c.toLowerCase(),c]));
+  return rows.slice(1).map(r=>{const g=(...ks)=>{const i=idx(...ks);return i>=0?(r[i]||"").trim():""};
+    const cap=s=>s.split(/[|;]/).map(x=>capMap[x.trim().toLowerCase()]).filter(Boolean);
+    const tc=s=>s?s[0].toUpperCase()+s.slice(1).toLowerCase():s;
+    return norm({name:g("name","tool"),category:g("category"),cost:g("cost","annual_cost").replace(/[$,]/g,""),seats:g("seats","licensed_seats"),active:g("active","active_seats"),crit:tc(g("crit","criticality")),integ:tc(g("integ","integration")),renewal:g("renewal"),
+      admin:g("admin","admin_owner","owner"),champion:g("champion","power_user","power_users"),protected:/^(y|yes|true|1)$/i.test(g("protected")),caps:cap(g("used_features","caps","features")),avail:cap(g("unused_features","available"))})}).filter(t=>t.name);
+}
+function download(name,text,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+
+/* ---------- events ---------- */
+$("#addBtn").onclick=()=>openForm(null);
+$("#sampleBtn").onclick=()=>{if(state.tools.length&&!confirmReplace())return;state.tools=SAMPLE.map(norm);state.fHidden=[];refresh()};
+$("#clearBtn").onclick=()=>{if(!state.tools.length)return;if(!confirmReplace("Remove all tools?"))return;state.tools=[];refresh()};
+$("#exportBtn").onclick=()=>download("martech-stack.csv",toCSV(),"text/csv");
+$("#importBtn").onclick=()=>$("#fileIn").click();
+$("#fileIn").onchange=e=>{const file=e.target.files[0];if(!file)return;file.text().then(txt=>{try{const t=importCSV(txt);state.tools=t;state.fHidden=[];refresh();flash(`Imported ${t.length} tools.`)}catch(err){flash(err.message,true)}e.target.value=""})};
+$("#invTable").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.edit)openForm(state.tools.find(t=>t.id===b.dataset.edit));
+  if(b.dataset.del){state.tools=state.tools.filter(t=>t.id!==b.dataset.del);refresh()}});
+$("#printBtn").onclick=()=>{renderFeatures();renderResults();window.print()};
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+b.dataset.tab));
+});
+$("#themeBtn").onclick=()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;state.theme=dark?"light":"dark";document.documentElement.dataset.theme=state.theme;save()};
+let pendingConfirm=0;
+function confirmReplace(msg){const now=Date.now();if(now-pendingConfirm<4000){pendingConfirm=0;return true}pendingConfirm=now;flash((msg||"This replaces your current stack.")+" Click again to confirm.",true);return false}
+let flashT;function flash(msg,warn){let n=$("#flash");if(!n){n=document.createElement("div");n.id="flash";n.setAttribute("role","status");n.style.cssText="position:fixed;left:50%;bottom:20px;transform:translateX(-50%);padding:10px 14px;border-radius:10px;font-size:.88rem;z-index:60;max-width:calc(100vw - 32px);box-shadow:0 4px 18px rgba(0,0,0,.2)";document.body.appendChild(n)}
+  n.style.background=warn?"var(--ink)":"var(--accent)";n.style.color=warn?"var(--page)":"var(--accent-ink)";n.textContent=msg;n.style.display="block";clearTimeout(flashT);flashT=setTimeout(()=>n.style.display="none",4000)}
+
+const tip=$("#tip");
+document.addEventListener("mousemove",e=>{const t=e.target.closest("[data-tip]");if(!t){tip.style.opacity=0;return}
+  tip.innerHTML=t.dataset.tip;tip.style.opacity=1;const r=tip.getBoundingClientRect();let x=e.clientX+14,y=e.clientY+14;
+  if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;if(y+r.height>innerHeight-8)y=e.clientY-r.height-14;tip.style.left=x+"px";tip.style.top=y+"px"});
+
+function refresh(){save();renderAll()}
+
+/* ---------- init ---------- */
+if(!load())state.tools=SAMPLE.map(norm);
+if(state.theme)document.documentElement.dataset.theme=state.theme;
+renderSettings();renderAll();
+window.__audit=()=>audit(state.tools,state.settings);
+})();
+</script>
+</body>
+</html>
