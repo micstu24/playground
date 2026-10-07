@@ -68,6 +68,18 @@
   }
   .tool-link:hover{background:var(--work);}
   .tool-link:focus-visible{outline:2px solid var(--work); outline-offset:2px;}
+  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;}
+  .hero-actions .tool-link{margin:0;}
+  .story-link{
+    font-family:'Fredoka',sans-serif; font-weight:500; font-size:14.5px; text-decoration:none;
+    background:#fff; color:var(--ink); border:2px solid var(--line); padding:11px 20px; border-radius:12px; display:inline-block;
+  }
+  .story-link:hover{border-color:var(--ink);}
+  .story-link:focus-visible{outline:2px solid var(--work); outline-offset:2px;}
+  .sample-hint{font-family:'Space Mono',monospace; font-size:11.5px; color:var(--stone); margin:0 0 28px; max-width:60ch;}
+  html{scroll-behavior:smooth;}
+  .body-content h2{scroll-margin-top:84px;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
 
   footer{padding:56px 0 64px; margin-top:40px; border-top:1px solid var(--line); text-align:center;}
   footer p{color:var(--stone); font-size:13.5px;}
@@ -92,37 +104,54 @@
     <h1>MarTech Stack ROI Audit</h1>
     <p class="dek">Rebuilding the framework behind a real $100K+ tool-consolidation project into a reusable, interactive audit tool.</p>
 
+    <div class="hero-actions">
+      <a class="tool-link" href="martech-roi-audit-tool.html">Try the audit tool &rarr;</a>
+      <a class="story-link" href="#overview">How it works &darr;</a>
+    </div>
+    <p class="sample-hint">The tool runs on sample data: made-up tools, costs and savings, not any real company's tech stack or contracts.</p>
+
     <div class="meta-row">
-      <div class="meta-item"><span class="k">Status</span><span class="v">In progress</span></div>
-      <div class="meta-item"><span class="k">Impact</span><span class="v">$100K+ eliminated</span></div>
+      <div class="meta-item"><span class="k">Status</span><span class="v">Live</span></div>
+      <div class="meta-item"><span class="k">Impact</span><span class="v">Eliminate redundancy, track renewals</span></div>
       <div class="meta-item"><span class="k">Tools</span><span class="v">Claude Code, PowerBI</span></div>
     </div>
   </header>
 
   <div class="body-content">
-    <h2>The problem</h2>
-    <p>[Replace with real detail: what did the stack look like before the audit — how many tools, what was overlapping, and how did the redundancy actually get discovered?]</p>
+    <h2 id="overview">What it does</h2>
+    <p>You list every tool in your marketing stack, who runs it, who depends on it, and which of its features your teams actually use versus just pay for. The audit then finds features that more than one tool can do and recommends what to <strong>keep</strong>, <strong>right-size</strong>, <strong>consolidate</strong> or <strong>cut</strong>, with an estimated annual saving for each call.</p>
 
-    <h2>The approach</h2>
-    <p>[Replace with real detail: how did you evaluate each tool — usage data, cost, overlap with other systems? What was the decision framework?]</p>
+    <h2>How it works</h2>
     <ul>
-      <li>[Step or criterion one]</li>
-      <li>[Step or criterion two]</li>
-      <li>[Step or criterion three]</li>
+      <li><strong>1. Stack inventory.</strong> Add tools by hand, import a CSV, or load the sample stack. For each one: annual cost, renewal date, licensed vs. active seats, business criticality, how well it integrates with your core stack, an admin owner and a champion.</li>
+      <li><strong>2. Feature comparison.</strong> A matrix shows which tools use or merely include each feature, which features are paid for more than once, and the recommended home for each.</li>
+      <li><strong>3. Audit results.</strong> Headline spend and savings, a recommendation and plain-language reason for every tool, and a list of the champions to consult before anything changes.</li>
     </ul>
 
     <div class="callout">
-      <span class="k">Key decision</span>
-      <p>[The one call that mattered most — e.g. which tool got cut and why, even though it seemed risky at the time.]</p>
+      <span class="k">The idea behind it</span>
+      <p>Hidden redundancy lives in features a tool includes but nobody uses, like a chat widget already inside your automation platform while you pay for a separate chat tool. So every feature is tagged as used or just available, and both count toward overlap.</p>
     </div>
 
-    <h2>What I built (this version)</h2>
-    <p>[Describe the interactive version of this tool built with Claude Code — what does it take as input, what does it output, and what makes it more reusable than the original one-off audit?]</p>
-    <p><a class="tool-link" href="martech-roi-audit-tool.html">Try the audit tool &rarr;</a></p>
-    <p><em>Heads up: the tool runs on sample data. Every tool name, cost, seat count and savings figure in it is a made-up placeholder, not a real company's tech stack or contracts.</em></p>
+    <h2>How it decides</h2>
+    <ul>
+      <li><strong>Value score (0&ndash;100):</strong> 40% seat utilization, 35% business criticality, 25% integration with the core stack.</li>
+      <li><strong>Consolidate</strong> when most of what a tool is used for is already covered by a higher-value tool that is staying, and the tool isn't high-criticality. If adoption is strong, it's flagged for review instead.</li>
+      <li><strong>Cut</strong> when the value score is low and criticality is low, listing any feature only that tool provides so nobody is surprised.</li>
+      <li><strong>Right-size</strong> when seat utilization is under target: drop to active seats plus a growth buffer.</li>
+      <li><strong>People first:</strong> any change flags the tool's champion, so the team that depends on it is part of the decision, not just the admin.</li>
+    </ul>
+    <p>The thresholds are adjustable in Settings, and results update immediately. First-year net subtracts a one-time switching cost for consolidations.</p>
 
-    <h2>Result</h2>
-    <p>[Real numbers where you can share them, plus what changed operationally — not just cost savings, but what got easier.]</p>
+    <h2>Your data stays with you</h2>
+    <p>The tool runs entirely in your browser. Your stack is saved locally on your device, nothing is uploaded, and you can export it to CSV or print the report at any time.</p>
+
+    <div class="callout">
+      <span class="k">About the sample data</span>
+      <p>Every tool name, cost, seat count, renewal date and savings figure the tool opens with is a made-up placeholder for demonstration. None of it reflects a real company's tech stack, pricing or contracts.</p>
+    </div>
+
+    <p><a class="tool-link" href="martech-roi-audit-tool.html">Try the audit tool &rarr;</a></p>
   </div>
 
   <footer>
