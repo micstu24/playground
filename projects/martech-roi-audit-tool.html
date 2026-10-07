@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>MarTech Stack ROI Audit</title>
+<title>GTM Tech Stack ROI Audit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -181,8 +181,8 @@ input[type=range]{padding:0;accent-color:var(--accent);background:none;border:no
   <a class="back-link no-print" href="martech-roi-audit.html">&larr; Back to overview</a>
   <header class="top">
     <div>
-      <h1>MarTech Stack ROI Audit</h1>
-      <p class="lede">List every tool in your marketing stack, who owns it and who champions it, and which features you use versus just pay for. The audit finds redundant features across tools and recommends what to keep, right-size, consolidate or cut, with estimated savings.</p>
+      <h1>GTM Tech Stack ROI Audit</h1>
+      <p class="lede">List every tool in your GTM tech stack, marketing and sales alike, who owns it and who champions it, and which features you use versus just pay for. The audit finds redundant features across tools and recommends what to keep, right-size, consolidate or cut, with estimated savings.</p>
     </div>
     <div class="toolbar no-print">
       <button id="themeBtn" type="button" title="Toggle light/dark">◐ Theme</button>
@@ -650,7 +650,7 @@ function download(name,text,type){const a=document.createElement("a");a.href=URL
 $("#addBtn").onclick=()=>openForm(null);
 $("#sampleBtn").onclick=()=>{if(state.tools.length&&!confirmReplace())return;state.tools=SAMPLE.map(norm);state.fHidden=[];refresh()};
 $("#clearBtn").onclick=()=>{if(!state.tools.length)return;if(!confirmReplace("Remove all tools?"))return;state.tools=[];refresh()};
-$("#exportBtn").onclick=()=>download("martech-stack.csv",toCSV(),"text/csv");
+$("#exportBtn").onclick=()=>download("gtm-stack.csv",toCSV(),"text/csv");
 $("#importBtn").onclick=()=>$("#fileIn").click();
 $("#fileIn").onchange=e=>{const file=e.target.files[0];if(!file)return;file.text().then(txt=>{try{const t=importCSV(txt);state.tools=t;state.fHidden=[];refresh();flash(`Imported ${t.length} tools.`)}catch(err){flash(err.message,true)}e.target.value=""})};
 $("#invTable").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;

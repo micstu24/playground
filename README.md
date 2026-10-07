@@ -15,7 +15,7 @@ projects/
 
 ## What's real vs. placeholder right now
 
-- The **MarTech Stack ROI Audit** page has the real layout and structure, but the body
+- The **GTM Tech Stack ROI Audit** page has the real layout and structure, but the body
   content is bracketed placeholder text — `[Replace with real detail: ...]`. Fill that in
   with your actual audit process and numbers.
 - Every other card on the homepage links to `coming-soon.html` for now.
